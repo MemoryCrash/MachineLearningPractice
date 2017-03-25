@@ -16,6 +16,7 @@ Y = f(X)
 plt.plot(X, Y)
 plt.text(3, 0.5, r'$\sigma\left(z\right)=\frac{1}{1+e^{-z}}$', fontsize = 15)
 
+
 plt.show()
 
 
