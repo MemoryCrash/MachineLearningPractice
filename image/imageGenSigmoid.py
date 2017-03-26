@@ -7,19 +7,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pylab import annotate
 
-def f(z):
+def sigmoid(z):
 	return (1/(1+np.exp(-z)))
 
 X = np.linspace(-10, 10, 256, endpoint=True)
-Y = f(X)
+Y = sigmoid(X)
 
 plt.plot(X, Y)
 plt.text(3, 0.5, r'$\sigma\left(z\right)=\frac{1}{1+e^{-z}}$', fontsize = 15)
 
 
 plt.show()
-
-
-
 
 
