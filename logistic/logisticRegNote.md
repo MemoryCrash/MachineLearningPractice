@@ -12,7 +12,7 @@
 
 <img src ="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/sigmoid.png" width = 50% height = 50%/>
 
-可以看出来在任何大于0.5的数据被划分到1类，小于0.5的数据划分到0类。选择好了判断函数，接下来就需要对输入判断函数的数据进行处理。在这里我们认为输入的数据满足这样的公式![pi](http://latex.codecogs.com/gif.latex?z=w_{0}x_{0}&plus;w_{1}x_{1}&plus;w_{2}x_{2}&plus;....&plus;w_{n}x_{n})用向量的形式表示为![pi](http://latex.codecogs.com/gif.latex?z=w^{T}x)这里需要说明下这个**向量x**就代表了我们训练模型的**输入数据**，这里的**向量w**就代表了这些**数据的系数**我们的目的就是通过训练模型获取最优的w。怎么样算是最优【可以更好的预测未知数据】是一个很关键的判定原则。
+可以看出来在任何大于0.5的数据被划分到1类，小于0.5的数据划分到0类。选择好了判断函数，接下来就需要对输入判断函数的数据进行处理。在这里我们认为输入的数据满足这样的公式![pi](http://latex.codecogs.com/gif.latex?z=w_{0}x_{0}&plus;w_{1}x_{1}&plus;w_{2}x_{2}&plus;....&plus;w_{n}x_{n})用向量的形式表示为![pi](http://latex.codecogs.com/gif.latex?z=w^{T}x)这里需要说明下这个<font color="red">向量x</font>就代表了我们训练模型的**输入数据**，这里的**向量w**就代表了这些**数据的系数**我们的目的就是通过训练模型获取最优的w。怎么样算是最优【可以更好的预测未知数据】是一个很关键的判定原则。
 ## 参考书籍
 
 《机器学习实战》 Peter Harrington 著 李锐 译    
