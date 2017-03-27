@@ -15,16 +15,20 @@
 
 可以看出来在任何大于0.5的数据被划分到1类，小于0.5的数据划分到0类。选择好了判断函数，接下来就需要对输入判断函数的数据进行处理。在这里我们认为输入的数据满足这样的公式![pi](http://latex.codecogs.com/png.latex?z=w_{0}x_{0}&plus;w_{1}x_{1}&plus;w_{2}x_{2}&plus;....&plus;w_{n}x_{n})用向量的形式表示为![pi](http://latex.codecogs.com/png.latex?z=w^{T}x)这里需要说明下这个**向量x**就代表了我们训练模型的**输入数据**，这里的**向量w**就代表了这些**数据的系数**我们的目的就是通过训练模型获取最优的w。怎么样算是最优呢，【可以更好的预测未知数据】是一个很关键的判定原则。
 
-## 假设函数
+### 假设函数
 
 ![pi](http://latex.codecogs.com/png.latex?h_{w}\left&space;(&space;x&space;\right&space;)=\textstyle\frac{1}{1&plus;e^{-w^{T}x}})就是我们的假设函数。假设函数可以基于我们当前的系数w的内容输入训练数据然后输出一个结果来，我们再通过对比输出的结果和训练数据对应的标签来进行下一步的调整。我们在训练模型阶段会期望模型输出的值能和训练数据本身的标签尽可能的对应上。那如何对模型进行调整了这里调整的对象其实就是w。这个时候我们会很自然的构造一个代价函数。这里还有点![pi](http://latex.codecogs.com/png.latex?h_{w}(x))可以理解为给定x和w后的输出结果为正例的条件概率。这样可以得到如下公式:   
 ![pi](http://latex.codecogs.com/png.latex?P(y=1|x;w)=h_{w}(x))&emsp;&emsp;&emsp;&emsp;&emsp;(1)    
 ![pi](http://latex.codecogs.com/png.latex?P(y=0|x;w)=1-h_{w}(x))&emsp;&emsp;&emsp;(2)       
 可以将公式(1)(2)合并为如下公式    
 ![pi](http://latex.codecogs.com/png.latex?P(y|x;w)=(h_{w}\left&space;(&space;x&space;\right&space;))^{y}(1-h_{w}\left&space;(&space;x&space;\right&space;))^{1-y})&emsp;&emsp;&emsp;(3)
-## 代价函数
+### 代价函数
 
-这里考虑公式(3)表达了输出值是正例或者反例的概率，那可以考虑到找到对应的w使的输出正例或者反例的概率最大。[最大似然估计](https://zh.wikipedia.org/wiki/最大似然估计)便是用来进行概率最大化的方法。我们似然函数是![pi](http://latex.codecogs.com/png.latex?L\left&space;(&space;w&space;\right&space;)=\prod_{i=1}^{m}P(y^{i}|x^{i};w))      
+这里考虑公式(3)表达了输出值是正例或者反例的概率，那可以考虑到找到对应的w使的输出正例或者反例的概率最大。[最大似然估计](https://zh.wikipedia.org/wiki/最大似然估计)便是用来进行概率最大化的方法。我们似然函数是<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/CodeCogsEqn.png" width = 15% height = 15%/>m代表的是训练样本的数量，在这里有一种思路，现在我们面对的连乘实际是不好处理这个时候可以对等式两边求对数log这样就将连乘转换成了求和。这里考虑到我们是求取使的代价函数最优的w的值所以这样的求对数的过程并不会影响到w的取值。 
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/loglike.png" width = 12% height = 12%/>   
+    
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/loglikeexp.png" width = 35% height = 35%/>       
 
 ## 参考书籍
 
