@@ -9,7 +9,7 @@
 
 这里我们考虑的不是去拟合某个曲线，而是去在数据中划一条线出来以此来对数据进行分类。这个就可以称为逻辑回归了。利用 logist 回归进行分类的主要思想是:根据现有数据对分类边界线建立回归公式，以此进行分类。这里的“回归”一词源于最佳拟合，表示要找到最佳拟合参数集。
 
-我们在进行预测练习的时候，先是进行2分类的练习，是或者不是，那么判断函数一般会联想到阶跃函数，但是在这里考虑到阶跃函数不可导的特点，所以并没有选择他。我们选择了sigmoid 函数，他能比较好满足我们判断0/1的要求同时又是可导的。sigmoid 函数的公式:![pi](http://latex.codecogs.com/png.latex?\sigma&space;\left&space;(&space;z&space;\right&space;)=\textstyle\frac{1}{1&plus;e^{-z}})图形如下。
+我们在进行预测练习的时候，先是进行2分类的练习，是或者不是，那么判断函数一般会联想到阶跃函数，但是在这里考虑到阶跃函数不可导的特点，所以并没有选择他。我们选择了sigmoid 函数，他能比较好满足我们判断0/1的要求同时又是可导的。sigmoid 函数的公式:![pi](http://latex.codecogs.com/png.latex?g&space;\left&space;(&space;z&space;\right&space;)=\textstyle\frac{1}{1&plus;e^{-z}})图形如下。
 
 <img src ="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/sigmoid.png" width = 50% height = 50%/>
 
@@ -28,8 +28,20 @@
 
 <img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/loglike.png" width = 12% height = 12%/>   
     
-<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/loglikeexp.png" width = 35% height = 35%/>       
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/loglikeexp.png" width = 35% height = 35%/> 
 
+观察上面的等式实际上依据最大似然法的话我们应该是求给定 w 下 l(w) 的最大值，这个应该是求最大值的过程。
+设 J(w) 就是我们用来衡量训练数据获得的输出结果与真实结果之间差异的损失函数![pi](http://latex.codecogs.com/png.latex?J\left&space;(&space;w&space;\right&space;)=-\frac{1}{m}l(w))既然是损失函数哪我们期望的就是损失最小化，所以就在原l(w)前加了一个符号，而对于1/m，在我自己理解这个项并不会影响最终的结果。那我们现在的问题就转换为求解使得 J(w) 最小的 w。对应的方法就是梯度下降法。
+### 梯度下降
+
+[梯度下降](https://zh.wikipedia.org/wiki/梯度下降法)的公式为：        
+![pi](http://latex.codecogs.com/png.latex?w_{j}:=w_{j}-\alpha&space;\frac{\partial&space;}{\partial&space;w_{j}}J(w)&space;,&space;(j=0....n))      
+这里需要注意n代表的是一个训练样本中拥有的特征数量，比如判断一个车的好坏就包括外观、马力、内饰等，刚才提到的m是训练样本的数量比如判断车好坏的例子我们会收集100条包含了外观、马力、内饰这些信息的数据。再回到梯度下降公式，现在我们看到的这个公式是针对单条训练数据来说，⍺ 代表的是步长需要你自己来设定取值过小梯度下降的会比较慢，设置大了可能会越过最佳的点。在梯度下降的过程中最关键的就是求解![pi](http://latex.codecogs.com/png.latex?\textstyle\frac{\partial&space;}{\partial&space;w_{j}}J(w))在求导的过程中会使用到[链式求导法则](https://zh.wikipedia.org/wiki/链式法则)，公式中的log代表了以e为底的对数，准确点以上公式中 log 应该写成 ln，而对 ln(x) 求导就是 1/x。对![pi](http://latex.codecogs.com/png.latex?e^{x})求导的结果依然是![pi](http://latex.codecogs.com/png.latex?e^{x})对梯度下降公式进行简化以后得到  
+![pi](http://latex.codecogs.com/png.latex?w_{j}:=w_{j}-\alpha&space;\sum_{i=1}^{m}(h_{w}(x^{i})-y^{i})x_{j}^{i},(j=0...n))&emsp;&emsp;&emsp;(4) 
+
+转换成向量形式     
+![pi](http://latex.codecogs.com/png.latex?w:=w-\alpha&space;\cdot&space;x^{T}\cdot&space;(g(x\cdot&space;w)-y))     
+注意这里进行的是![pi](http://latex.codecogs.com/png.latex?\cdot)代表是向量的内积。一般 logistic 回归的求解过程就是这样了。
 ## 参考书籍
 
 《机器学习实战》 Peter Harrington 著 李锐 译    
