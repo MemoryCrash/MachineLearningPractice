@@ -76,10 +76,50 @@ def plotBestFit(weights):
     plt.ylabel('X2')
     plt.show()
 
+# 随机梯度上升或者下降算法，当面对数据比较大的时候像是我们刚才的梯度上升算法
+# 就显的非常的慢了假设我们有1w条数据那么我们要更新一次数据就需要把这1w条数据
+# 都做一次计算。所以为了加快数据更新的速度这里实现一种叫做随机梯度上升的算法
+
+
+def stocGradAscent0(dataMatrix, classLabels):
+    '''
+    这个函数目前的运行效果实际来看并不怎么好，当然有个原因是目前我们的数据量少
+    '''
+    m, n = shape(dataMatrix)
+    alpha = 0.001
+    weights = ones(n)
+
+    for i in range(m):
+        h = sigmoid(sum(dataMatrix[i] * weights))
+        error = classLabels[i] - h
+        weights = weights + alpha * error * dataMatrix[i]
+
+    return weights
+
+
+def stocGradAscent1(dataMatrix, classLabels, numIter=150):
+    m, n = shape(dataMatrix)
+    weights = ones(n)
+
+    for j in range(numIter):
+        dataIndex = list(range(m))
+
+        for i in range(m):
+            alpha = 4 / (1.0 + j + i) + 0.001
+            randIndex = int(random.uniform(0, len(dataIndex)))
+            h = sigmoid(sum(dataMatrix[randIndex] * weights))
+            error = classLabels[randIndex] - h
+            weights = weights + alpha * error * dataMatrix[randIndex]
+            del dataIndex[randIndex]
+
+    return weights
+
 
 if __name__ == '__main__':
     dataArr, lableMat = loadDataSet()
-    weights = gradAscent(dataArr, lableMat)
+    # weights = gradAscent(dataArr, lableMat)
+    weights = stocGradAscent1(array(dataArr), lableMat)
     print(weights)
     # 这里 getA() 的作用是将矩阵返回为一个多维数组
-    plotBestFit(weights.getA())
+    # plotBestFit(weights.getA())
+    plotBestFit(weights)
