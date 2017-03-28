@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*-coding:UTF-8 -*-
 from numpy import *
-import operator
+import matplotlib.pyplot as plt
 
 
 def loadDataSet():
@@ -41,7 +41,45 @@ def gradAscent(dataMatIn, classLabels):
     return weights
 
 
+def plotBestFit(weights):
+    dataMat, lableMat = loadDataSet()
+    # 当需要使用多维数组做大计算的时候最好将 python 本身的 list 类型使用 numpy 的 array
+    dataArr = array(dataMat)
+    n = shape(dataArr)[0]
+    xcord1 = []
+    ycord1 = []
+    xcord2 = []
+    ycord2 = []
+
+    for i in range(n):
+        if int(lableMat[i]) == 1:
+            xcord1.append(dataArr[i, 1])
+            ycord1.append(dataArr[i, 2])
+        else:
+            xcord2.append(dataArr[i, 1])
+            ycord2.append(dataArr[i, 2])
+
+    # 创建一个图表对象
+    fig = plt.figure()
+    # 将画布分为1行1列并使用从左到右从上到下数的第1个
+    ax = fig.add_subplot(111)
+    # scatter 散点图
+    ax.scatter(xcord1, ycord1, s=30, c='red', marker='s')
+    ax.scatter(xcord2, ycord2, s=30, c='green')
+
+    # 划分类别的曲线
+    x = arange(-3.0, 3.0, 0.1)
+    y = (-weights[0] - weights[1] * x) / weights[2]
+    ax.plot(x, y)
+
+    plt.xlabel('X1')
+    plt.ylabel('X2')
+    plt.show()
+
+
 if __name__ == '__main__':
     dataArr, lableMat = loadDataSet()
     weights = gradAscent(dataArr, lableMat)
     print(weights)
+    # 这里 getA() 的作用是将矩阵返回为一个多维数组
+    plotBestFit(weights.getA())
