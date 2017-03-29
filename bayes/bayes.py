@@ -2,7 +2,7 @@
 # -*-coding:UTF-8 -*-
 
 from numpy import *
-
+import re
 
 def loadDataSet():
     postingList = [['my', 'dog', 'has', 'flea', \
@@ -102,6 +102,57 @@ def testingNB():
     print("{} classified as:{}".format(testEntry, result))
 
 
+def textParse(bigString):
+    listOfTokens = re.split(r'\W*', bigString)
+
+    return [tok.lower() for tok in listOfTokens if len(tok) > 2]
+
+
+def spamTest():
+    docList = []
+    classList = []
+    # 这里这样写是因为有26个文件，但是其实可以遍历这个目录下的所有文件
+    for i in range(1, 26):
+        file = open('./dataSource/email/spam/%d.txt' % i)
+        wordList = textParse(file.read())
+        docList.append(wordList)
+        classList.append(1)
+        file.close()
+
+        file = open('./dataSource/email/ham/%d.txt' % i, errors = 'ignore')
+        wordList = textParse(file.read())
+        docList.append(wordList)
+        classList.append(0)
+        file.close()
+
+    vocabList = createVocabList(docList)
+    trainingSet = list(range(50))
+    testSet = []
+
+    for i in range(10):
+        randIndex = int(random.uniform(0, len(trainingSet)))
+        testSet.append(trainingSet[randIndex])
+        del trainingSet[randIndex]
+
+    trainMat = []
+    trainClasses = []
+
+    for docIndex in trainingSet:
+        trainMat.append(setOfWords2Vec(vocabList, docList[docIndex]))
+        trainClasses.append(classList[docIndex])
+
+    p0V, p1V, pSpam = trainNB0(array(trainMat), array(trainClasses))
+    errorCount = 0
+
+    for docIndex in testSet:
+        wordVector = setOfWords2Vec(vocabList, docList[docIndex])
+        result = classifNB(array(wordVector), p0V, p1V, pSpam)
+        if result != classList[docIndex]:
+            errorCount += 1
+
+    print("the error rate is : {}".format((errorCount) / len(testSet)))
+
+
 if __name__ == '__main__':
     # listOPosts, listClasses = loadDataSet()
     # myVocabList = createVocabList(listOPosts)
@@ -112,4 +163,5 @@ if __name__ == '__main__':
 
     # p0V, p1V, pAb = trainNB0(trainMat, listClasses)
     # print(p0V, p1V, pAb)
-    testingNB()
+    # testingNB()
+    spamTest()
