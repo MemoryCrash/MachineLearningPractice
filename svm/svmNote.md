@@ -5,10 +5,12 @@
 意思)。支持向量机的学习使用到部分线性代数的知识，在学习的过程中也是遵循由简单到复杂的过程。      
 ## SVM 支持向量机     
 
-<img src ="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmGrapherWithText.jpg" width = 50% height = 50%/>
+<img src ="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmGrapherWithText.jpg" width = 50% height = 50%/>        
+
 比如我们有如上形式的数据，在对它们进行分类的时候我们可以通过画一条线将上下的数据分隔开，但是如你所想的，可以将这两类数据划分开的直线有无数条。那这个时
 候我们应该选择哪条直线来进行数据的划分。      
-<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmGrapher3line.jpg" width = 50% height = 50%/>      
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmGrapher3line.jpg" width = 50% height = 50%/>        
+
 直观的看我们会倾向于选择红色的的直线来进行数据的划分。选择红色直线的理由是当这个时候有一个新的点需要被划分时，使用红色直线进行划分更有可能进行正确的划分因为它
 给正例和反例都流出了最多的空间。       
 所以在这里我们的寻找这个最优划分的直线的依据就是寻找间隔最大的直线。我们目前讨论的是在二维平面的划分所以是通过直线进行划分，如果是在训练的数据是在三维空间
@@ -21,7 +23,17 @@
 
 ![pi](http://latex.codecogs.com/png.latex?w\cdot&space;x&plus;b=0)
 
-这里![pi](http://latex.codecogs.com/png.latex?w\cdot&space;x)表示w和x的内积。如上公式表示w和x的内积也可以通过w的转置后和x相乘来求的。    
+这里![pi](http://latex.codecogs.com/png.latex?w\cdot&space;x)表示w和x的内积。如上公式表示w和x的内积也可以通过w的转置后和x相乘来求的。这里可能有疑问为什么不是用y = ax+b这样的形式来表示。两种表示表达的意思的一致的，但是向量的表示法在高维下更方便，同时使用了向量的表示法后w代表的就是超平面的法向量这个对我们后续求解训练集中的点到超平面的距离非常有用。    
+![pi](http://latex.codecogs.com/png.latex?y&space;-ax-b&space;=&space;0)    
+w = [-1, -a]      
+x = [x0, x1]        
+![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;-b&space;=&space;0)          
+这里是-b因为b代表的是一个偏执所以它的符号实际并不起到特别的作用。      
+
+### 内积的几何含义      
+两个向量的内积代表一个a向量在b向量上的投影长度和b向量范数(长度)的乘积。
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmCdot.jpg" width = 50% height = 50%/>    
+利用这个特点我们可以得到训练集中的点到超平面的距离就等于对应点的向量在超平面法向量上的投影和法向量的范数的乘积。我们知道法向量的长度是可以变化的。我们在计算中可以设置法向量的长度为单位长度这样训练点到超平面的距离就是固定的。单位法向量下得到的间隔就是“几何间隔”，非单位法向量得到的间隔就是“函数间隔”。
 
 ## 参考书籍
 《机器学习实战》 Peter Harrington 著 李锐 译    
