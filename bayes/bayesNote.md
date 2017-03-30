@@ -18,8 +18,9 @@
 个特征条件之间都是独立的假设这样就形成了[朴素贝叶斯分类器](https://zh.wikipedia.org/wiki/朴素贝叶斯分类器)对应公式为:    
 ![pi](http://latex.codecogs.com/png.latex?P(y|x)=\frac{P(x|y)P(y)}{P(x)}=\frac{P(y)}{P(x)}\prod_{i=1}^{d}P(x_{i}|y))      
 
-在具体实现的时候需要注意到当在计算P(x1|y)P(x2|y)P(x3|y)由于受到训练集本身的影响极有可能其中有个数值可能是0这个时候就会让整个运算结果都变成0这个结果      显然并不是我们期望的。为了避免这样的情况我们一个是可以给这个相互乘的对象一个非0的默认值，或者是使用“拉普拉斯修正”进行平滑公式如下：    
-![pi](http://latex.codecogs.com/png.latex?\hat{P}(y)=\frac{\left&space;|&space;D_{y}&space;\right&space;|&plus;1}{\left&space;|&space;D&space;\right&space;|&plus;N})   
+这样在的假设使得朴素贝叶斯分类器变的简单，但是也会牺牲一定的分类准确率。具体实现的时候需要注意到当在计算P(x1|y)P(x2|y)P(x3|y)由于受到训练集本身的影响极有可能其中有个数值可能是0这个时候就会让整个运算结果都变成0这个结果显然并不是我们期望的。为了避免这样的情况我们一个是可以给这个相互乘的对象一个非0的默认值，或者是使用“拉普拉斯修正”进行平滑公式如下：     
+
+![pi](http://latex.codecogs.com/png.latex?\hat{P}(y)=\frac{\left&space;|&space;D_{y}&space;\right&space;|&plus;1}{\left&space;|&space;D&space;\right&space;|&plus;N})  
 ![pi](http://latex.codecogs.com/png.latex?\hat{P}(x_{i}|y)=\frac{\left&space;|&space;D_{y,x_{i}}&space;\right&space;|&plus;1}{\left&space;|&space;D_{y}&space;\right&space;|&plus;N_{i}})   
 
 这里N表示训练集D中可能的类别数，![pi](http://latex.codecogs.com/png.latex?N_{i})表示第i个属性可能的取值数。接着还需要考虑到概率一般比较小，多个相乘以后结果将会出现“下溢”接近于0，无法被使用。我们的处理方式对对朴素贝叶斯分类公式取对数这样就将概率乘的关系转换成了加的关系并且不会影响最终的结果。   
@@ -27,6 +28,6 @@
 
 《机器学习实战》 Peter Harrington 著 李锐 译    
 《统计学习方法》 李航 著   
-《机器学习》 周志华 著    
-《斯坦福大学公开课：机器学习课程 cs229 吴恩达    
-《coursera 机器学习课程》 吴恩达   
+《机器学习》 周志华 著        
+《斯坦福大学公开课：机器学习课程 cs229 吴恩达       
+《coursera 机器学习课程》 吴恩达         
