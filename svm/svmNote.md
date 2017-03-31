@@ -52,7 +52,6 @@ x = [x0, x1]
 
 得到      
 
-![pi](http://latex.codecogs.com/png.latex?w^{T}(x_{a}&plus;\frac{w}{\left&space;\|&space;w&space;\right&space;\|}m)&plus;b&space;=&space;-1)
 ![pi](http://latex.codecogs.com/png.latex?w^{T}(x_{a}-\frac{w}{\left&space;\|&space;w&space;\right&space;\|}m)&plus;b&space;=&space;-1)
 
 求解以后可以得到:
