@@ -39,7 +39,8 @@ x = [x0, x1]
 ![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;&plus;b&space;=&space;1)         
 ![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;&plus;b&space;=&space;-1)         
 
-在这两个平面之间没有训练集合中的点，训练集合中的点要么落在他们上面或者落在他们后面去，训练集合在这两个平面上表现为:              
+在这两个平面之间没有训练集合中的点，训练集合中的点要么落在他们上面(这些使得等式成立的就叫做支持向量)或者落在他们后面去，训练集合在这两个平面上表现为:
+
 ![pi](http://latex.codecogs.com/png.latex?y_{i}(w^{T}x_{i}&space;&plus;b)\geq&space;1&space;,(i=1.....N))      
 
 这里y表示训练集中对应的分类，因为是2分类正类y为1反类y为-1而当训练集合的点落在上图的两个虚线后面时如果是正例为正值如果是反例为负值这样就可以统一为上面的公式。由图上有点A落在上部的虚线上则一定有一个根据法向量方向移动m距离的点会落在下面的虚线上。我们可以根据这个关系求解出m来。   
