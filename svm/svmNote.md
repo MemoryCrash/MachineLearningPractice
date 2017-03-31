@@ -11,11 +11,7 @@
 候我们应该选择哪条直线来进行数据的划分。      
 <img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmGrapher3line.jpg" width = 50% height = 50%/>        
 
-直观的看我们会倾向于选择红色的的直线来进行数据的划分。选择红色直线的理由是当这个时候有一个新的点需要被划分时，使用红色直线进行划分更有可能进行正确的划分因为它
-给正例和反例都流出了最多的空间。       
-所以在这里我们的寻找这个最优划分的直线的依据就是寻找间隔最大的直线。我们目前讨论的是在二维平面的划分所以是通过直线进行划分，如果是在训练的数据是在三维空间
-则划分的就是一个平面，对于N维的空间中的数据我们可以通过N-1维来进行划分。这个N-1维用来划分的向量我们称它为分隔超平面(hyperplane)，分隔超平面可以写成这
-样的形式:    
+直观的看我们会倾向于选择红色的的直线来进行数据的划分。选择红色直线的理由是当这个时候有一个新的点需要被划分时，使用红色直线进行划分更有可能进行正确的划分因为它给正例和反例都流出了最多的空间。所以在这里我们的寻找这个最优划分的直线的依据就是寻找间隔最大的直线。我们目前讨论的是在二维平面的划分所以是通过直线进行划分，如果是在训练的数据是在三维空间则划分的就是一个平面，对于N维的空间中的数据我们可以通过N-1维来进行划分。这个N-1维用来划分的向量我们称它为分隔超平面(hyperplane)，分隔超平面可以写成这样的形式:    
 
 ![pi](http://latex.codecogs.com/png.latex?w^{T}x&plus;b=0) 
 
@@ -27,13 +23,24 @@
 ![pi](http://latex.codecogs.com/png.latex?y&space;-ax-b&space;=&space;0)    
 w = [-1, -a]      
 x = [x0, x1]        
-![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;-b&space;=&space;0)          
-这里是-b因为b代表的是一个偏执所以它的符号实际并不起到特别的作用。      
+![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;-b&space;=&space;0)      
+
+这里是-b因为b代表的是一个偏置所以它的符号实际并不起到特别的作用。      
 
 ### 内积的几何含义      
 两个向量的内积代表一个a向量在b向量上的投影长度和b向量范数(长度)的乘积。
 <img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmCdot.jpg" width = 50% height = 50%/>    
 利用这个特点我们可以得到训练集中的点到超平面的距离就等于对应点的向量在超平面法向量上的投影和法向量的范数的乘积。我们知道法向量的长度是可以变化的。我们在计算中可以设置法向量的长度为单位长度这样训练点到超平面的距离就是固定的。单位法向量下得到的间隔就是“几何间隔”，非单位法向量得到的间隔就是“函数间隔”。
+
+### 最大间隔      
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmMargin.jpg" width = 50% height = 50%/>
+
+在了解了如何在空间中求一个点到超平面之间的距离了，接下来就可以运用这个找到超平面，根据超平面的用来分隔两个类并拥有到两个类之间的最大距离的特点。我们寻找超平面等价于找到两个类之间的最大间隔。如上图示我们需要使得m获取最大值，同时我们假定除了超平面![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;&plus;b&space;=&space;0)外还有两个与他平行的平面分别是:        
+![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;&plus;b&space;=&space;1)         
+![pi](http://latex.codecogs.com/png.latex?w^{T}x&space;&plus;b&space;=&space;-1)         
+
+在这两个平面之间没有训练集合中的点，训练集合中的点要么落在他们上面或者落在他们后面去，训练集合在这两个平面上表现为:        
+![pi](http://latex.codecogs.com/png.latex?y_{i}(w^{T}x_{i}&space;&plus;b)\geq&space;1&space;,(i=1.....N))   
 
 ## 参考书籍
 《机器学习实战》 Peter Harrington 著 李锐 译    
