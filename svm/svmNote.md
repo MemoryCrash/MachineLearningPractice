@@ -65,6 +65,45 @@ minimize &emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}
 
 subject to &emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?y_{i}(w^{T}x_{i}&space;&plus;b)\geq&space;1&space;,(i=1.....N))
 
+### 对偶算法    
+为了求解**线性可分支持向量机**的最优化问题，其中一个方法就是利用[拉格朗日乘子法](https://en.wikipedia.org/wiki/Lagrange_multiplier)整合约束信息后再根据对偶性求解对偶问题。因为一般来讲对偶问题会比原问题更容易求解。关于拉格朗日乘子法简述如下，假设![pi](http://latex.codecogs.com/png.latex?f(x))，![pi](http://latex.codecogs.com/png.latex?c_{i}(x))，![pi](http://latex.codecogs.com/png.latex?h_{j}(x))是定义在![pi](http://latex.codecogs.com/png.latex?R^{n})上的连续可微函数。考虑约束最优化问题:
+
+![pi](http://latex.codecogs.com/png.latex?min&space;f(x),x\epsilon&space;R^{n})     
+
+s.t.
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?c_{j}(x)\leq0&space;,i=1,2,....,k)    
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?h_{j}(x)=0,j=1,2,.....l)    
+
+称此约束最优化问题为原始最优化问题或原始问题。这里引入广义拉格朗日函数:
+
+![pi](http://latex.codecogs.com/png.latex?L(x,\alpha&space;,\beta&space;)=f(x)&plus;\sum_{i=1}^{k}\alpha&space;_{i}c_{i}(x)&plus;\sum_{j=1}^{l}\beta&space;_{j}h_{j}(x))
+
+![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i})和![pi](http://latex.codecogs.com/png.latex?\beta&space;_{j})是拉格朗日乘子，其中![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i}\geq&space;0)。根据拉格朗日乘子法，我们将线性可分支持向量机的求解m的公式和其约束转换为一个公式如下:
+
+![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;)=\frac{1}{2}\left&space;\|&space;w&space;\right&space;\|^{2}&plus;\sum_{i=1}^{N}\alpha&space;_{i}(1-y_{i}(w\cdot&space;x_{i}&plus;b)))&emsp;(1)
+其中![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i}\geqslant&space;0)，![pi](http://latex.codecogs.com/png.latex?\alpha&space;=(\alpha&space;_{1},\alpha&space;_{2}.....,\alpha&space;_{N})^{T})为拉格朗日乘子向量。这是一个极小极大问题，如果我们固定了w和b这个时候在满足约束的情况下得到的公式就是![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;)=\frac{1}{2}\left&space;\|&space;w&space;\right&space;\|^{2})这个时候就可以进一步进行![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}\left&space;\|&space;w&space;\right&space;\|^{2})的最小化。在这里我们不直接求解这个公式而是转而求解它的对偶问题先基于w和b最小化![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;))再基于![pi](http://latex.codecogs.com/png.latex?\alpha)最大化![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;))这个时候就将问题转化为了极大极小问题。现在我们距离计算这个极大极小问题。先通过对w和b分别求导并另其为0求的w和b:
+
+![pi](http://latex.codecogs.com/png.latex?w=\sum_{i=1}^{N}\alpha&space;_{i}y_{i}x_{i})
+
+![pi](http://latex.codecogs.com/png.latex?\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)
+
+将这两个公式带入公式(1)得到:
+基于![pi](http://latex.codecogs.com/png.latex?\alpha)最大化下面的公式
+
+![pi](http://latex.codecogs.com/png.latex?-\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha&space;_{i}\alpha&space;_{j}y_{i}y_{j}(x_{i}\cdot&space;x_{j})&plus;\sum_{i=1}^{N}\alpha&space;_{i})&emsp;(2)
+
+将(2)式转化为最小化问题:
+
+![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha&space;_{i}\alpha&space;_{j}y_{i}y_{j}(x_{i}\cdot&space;x_{j})-\sum_{i=1}^{N}\alpha&space;_{i})&emsp;(3)
+
+s.t.
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i}\geq&space;0,(i=1,2,....N))
+
 ## 参考书籍
 《机器学习实战》 Peter Harrington 著 李锐 译    
 《统计学习方法》 李航 著   
