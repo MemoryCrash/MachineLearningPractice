@@ -83,6 +83,7 @@ s.t.
 ![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i})和![pi](http://latex.codecogs.com/png.latex?\beta&space;_{j})是拉格朗日乘子，其中![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i}\geq&space;0)。根据拉格朗日乘子法，我们将线性可分支持向量机的求解m的公式和其约束转换为一个公式如下:
 
 ![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;)=\frac{1}{2}\left&space;\|&space;w&space;\right&space;\|^{2}&plus;\sum_{i=1}^{N}\alpha&space;_{i}(1-y_{i}(w\cdot&space;x_{i}&plus;b)))&emsp;(1)
+
 其中![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i}\geqslant&space;0)，![pi](http://latex.codecogs.com/png.latex?\alpha&space;=(\alpha&space;_{1},\alpha&space;_{2}.....,\alpha&space;_{N})^{T})为拉格朗日乘子向量。这是一个极小极大问题，如果我们固定了w和b这个时候在满足约束的情况下得到的公式就是![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;)=\frac{1}{2}\left&space;\|&space;w&space;\right&space;\|^{2})这个时候就可以进一步进行![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}\left&space;\|&space;w&space;\right&space;\|^{2})的最小化。在这里我们不直接求解这个公式而是转而求解它的对偶问题先基于w和b最小化![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;))再基于![pi](http://latex.codecogs.com/png.latex?\alpha)最大化![pi](http://latex.codecogs.com/png.latex?L(w,b,\alpha&space;))这个时候就将问题转化为了极大极小问题。现在我们距离计算这个极大极小问题。先通过对w和b分别求导并另其为0求的w和b:
 
 ![pi](http://latex.codecogs.com/png.latex?w=\sum_{i=1}^{N}\alpha&space;_{i}y_{i}x_{i})
