@@ -105,6 +105,9 @@ s.t.
 
 &emsp;![pi](http://latex.codecogs.com/png.latex?\alpha&space;_{i}\geq&space;0,(i=1,2,....N))
 
+### SMO 优化算法        
+考虑使用[SMO优化算法](https://zh.wikipedia.org/wiki/序列最小优化算法)来求解(3)的问题。     
+
 ## 参考书籍
 《机器学习实战》 Peter Harrington 著 李锐 译    
 《统计学习方法》 李航 著   
