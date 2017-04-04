@@ -109,10 +109,30 @@ s.t.
 考虑使用[SMO优化算法](https://zh.wikipedia.org/wiki/序列最小优化算法)来求解(3)的问题。     
 
 ### 软间隔         
-先前我们讨论的都是完全线性可分的数据，但是实际中的数据可能是线性不可分数据，通常情况是训练数据中有一些奇艺点，将这些奇艺点去掉以后，剩下大部分集合是线性可分的。这就可以修改硬间隔最大化，使其成为软间隔最大化。   
+先前我们讨论的都是完全线性可分的数据，但是实际中的数据可能是线性不可分数据，通常情况是训练数据中有一些奇异点，将这些奇艺点去掉以后，剩下大部分集合是线性可分的。这就可以修改硬间隔最大化，使其成为软间隔最大化。   
+
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmSoftMargin.jpg" width=50% height = 50%/>  
+
+如图所示如果出现了一个奇异点k，按照硬间隔的方式来查找最大间隔必然会得到红色虚线代表的分隔曲线，但是这个红色虚线并不是我们期望的。我们依然希望是以黑色的虚线来进行分类。后来是通过引入一个松弛变量![pi](http://latex.codecogs.com/png.latex?\xi&space;_{i}\geq&space;0)使得函数间隔加上了松弛变量后大于等于1。这样约束，条件就变为这样:  
+
+![pi](http://latex.codecogs.com/png.latex?y_{i}(w\cdot&space;x_{i}&plus;b)\geq&space;1-\xi&space;_{i})
+
+同时进行最优化的函数也随之变化为:
+
+![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}\left&space;\|&space;w&space;\right&space;\|^{2}&plus;C\sum_{i=1}^{N}\xi&space;_{i})   
+这里的C>0称为惩罚参数，一般由应用问题决定，C值大时对误分类的惩罚增大，C值小时对误分类的惩罚减小。最小化目标函数的过程包含了使间隔尽可能大和使误分点尽可能少。根据硬间隔的方式寻找对偶问题后可以发现软间隔的对偶问题和硬间隔公式(3)非常相似只是约束条件发生了变化:
+
+![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha&space;_{i}\alpha&space;_{j}y_{i}y_{j}(x_{i}\cdot&space;x_{j})-\sum_{i=1}^{N}\alpha&space;_{i})&emsp;(4)
+
+s.t.
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?0\leq&space;\alpha&space;_{i}\leq&space;C,(i=1,2,....N))
 
 ## 参考书籍
-《机器学习实战》 Peter Harrington 著 李锐 译    
+
+《机器学习实战》 Peter Harrington 著 李锐 译           
 《统计学习方法》 李航 著   
 《机器学习》 周志华 著        
 《斯坦福大学公开课：机器学习课程 cs229 吴恩达      
