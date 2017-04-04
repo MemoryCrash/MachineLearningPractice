@@ -130,6 +130,28 @@ s.t.
 
 &emsp;![pi](http://latex.codecogs.com/png.latex?0\leq&space;\alpha&space;_{i}\leq&space;C,(i=1,2,....N))
 
+### 非线性支持向量机
+
+考虑这样的待分类数据我们是无法直接通过一条直线来进行分类的:
+
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmKernel.jpg" width = 50% height = 50%>
+
+对于这样的问题我们可以将它转换为一个线性的问题来进行解决。在现实生活中我们也常遇到分类的问题，当我们根据当前特征对这个事物无法进行分类的时候，一般可以通过增加一个维度来进行分类。这里我们也是曲借鉴这样的想法，将数据进行转换后在进行分类。针对上图的数据可以通过对数据进行平方后转换为一个线性问题继续处理。
+
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmChangeKernel.jpg" width = 50% height = 50%/>
+
+将低维数据映射到高维后可以将待优化的公式表示成这样:
+
+![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha&space;_{i}\alpha&space;_{j}y_{i}y_{j}(\phi&space;(x_{i})\cdot&space;\phi&space;(x_{j}))-\sum_{i=1}^{N}\alpha&space;_{i})&emsp;(5)
+
+s.t.
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?0\leq&space;\alpha&space;_{i}\leq&space;C,(i=1,2,....N))
+
+![pi](http://latex.codecogs.com/png.latex?\phi&space;(x)) 表示对数据映射到高维
+
 ## 参考书籍
 
 《机器学习实战》 Peter Harrington 著 李锐 译           
