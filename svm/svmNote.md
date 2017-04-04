@@ -150,7 +150,25 @@ s.t.
 
 &emsp;![pi](http://latex.codecogs.com/png.latex?0\leq&space;\alpha&space;_{i}\leq&space;C,(i=1,2,....N))
 
-![pi](http://latex.codecogs.com/png.latex?\phi&space;(x)) 表示对数据映射到高维
+![pi](http://latex.codecogs.com/png.latex?\phi&space;(x)) 表示对数据映射到高维，对映射后的数据同样进行内积操作，但是存在一个映射到高维的数据计算量更大的情况。这里就通过一个核函数来进行处理。核函数输入的是映射前的数据，但是输出的是映射后的数据进行内积的结果。这样可以极大的减少计算量。这样我们进一步将公式(5)写为:
+
+![pi](http://latex.codecogs.com/png.latex?\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha&space;_{i}\alpha&space;_{j}y_{i}y_{j}K(x_{i},&space;x_{j})-\sum_{i=1}^{N}\alpha&space;_{i})&emsp;(6)
+
+s.t.
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?0\leq&space;\alpha&space;_{i}\leq&space;C,(i=1,2,....N))
+
+常用的核函数有：
+
+* 多项式核函数
+
+![pi](http://latex.codecogs.com/png.latex?K(x,z)=(x\cdot&space;z&plus;1)^{p})
+
+* 高斯核函数
+
+![pi](http://latex.codecogs.com/png.latex?K(x,z)=exp(-\frac{\left&space;\|&space;x-z&space;\right&space;\|^{2}}{2\sigma&space;^{2}}))
 
 ## 参考书籍
 
