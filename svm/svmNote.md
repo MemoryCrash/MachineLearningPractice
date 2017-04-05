@@ -125,7 +125,7 @@ s.t.
 ![pi](http://latex.codecogs.com/gif.latex?y_{1}\neq&space;y_{2})
 条件下取值范围为例子。根据上面的公式我们可以得出这样的结论:
 
-![pi](http://latex.codecogs.com/gif.latex?\alpha_{1}^{old}-\alpha_{2}^{old}=\alpha_{2}^{new}-\alpha_{2}^{new}=k)
+![pi](http://latex.codecogs.com/gif.latex?\alpha_{1}^{old}-\alpha_{2}^{old}=\alpha_{1}^{new}-\alpha_{2}^{new}=k)
 
 结合
 
@@ -170,6 +170,25 @@ s.t.
 ![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1}^{new}=&space;\alpha&space;_{1}^{old}&plus;y_{1}y_{2}(&space;\alpha&space;_{2}^{old}-\alpha&space;_{2}^{new}))
 
 #### 变量获取
+
+现在更新的公式有来我们接下来需要做的事获取一对变量来进行更新。首先检查在![pi](http://latex.codecogs.com/gif.latex?0<\alpha&space;_{i}<C)范围中的变量是否满足KKT条件的变量，有的话就选择违反最严重的作为第一个点。如果这个范围没有，就遍历整个训练集合来选择违反KKT条件的点。然后在选定第一个点后第二个待优化点根据![pi](http://latex.codecogs.com/gif.latex?\left&space;|&space;E_{1}-E_{2}&space;\right&space;|)最大化的原则来选择第二个待优化点。
+这样选择待优化点的意图是让我们每次的优化和更新是更加有效的。
+
+#### 计算阀值
+
+在计算完两个优化变量以后我们都需要更新阀值:
+
+![pi](http://latex.codecogs.com/gif.latex?b_{1}^{new}=-E_{1}-y_{1}K_{11}(\alpha&space;_{1}^{new}-\alpha&space;_{1}^{old})-y_{2}K_{21}(\alpha_{2}^{new}-\alpha&space;_{2}^{old})&plus;b^{old})
+
+![pi](http://latex.codecogs.com/gif.latex?b_{2}^{new}=-E_{2}-y_{1}K_{12}(\alpha&space;_{1}^{new}-\alpha&space;_{1}^{old})-y_{2}K_{22}(\alpha_{2}^{new}-\alpha&space;_{2}^{old})&plus;b^{old})
+
+当![pi](http://latex.codecogs.com/gif.latex?0<&space;\alpha&space;_{i}<&space;C)时![pi](http://latex.codecogs.com/gif.latex?b_{1}^{new})和![pi](http://latex.codecogs.com/gif.latex?b_{2}^{new})相等，这个好理解因为满足这个条件的是支持向量，而支持向量对应的分隔平面是同一个，所以这个平面对应的阀值也是一样的。当其他情况的我们选择两个阀值的平均值来作为新的阀值。
+
+获取新的阀值基于此给出我们的![pi](http://latex.codecogs.com/gif.latex?E_{i})的更新函数:
+
+![pi](http://latex.codecogs.com/gif.latex?E_{i}^{new}&space;=&space;\sum_{S}y_{j}\alpha&space;_{j}K(x_{i},x_{j})&plus;b^{new}-y_{i})
+
+S代表所有支持向量的集合。
 
 ### 软间隔         
 先前我们讨论的都是完全线性可分的数据，但是实际中的数据可能是线性不可分数据，通常情况是训练数据中有一些奇异点，将这些奇艺点去掉以后，剩下大部分集合是线性可分的。这就可以修改硬间隔最大化，使其成为软间隔最大化。   
