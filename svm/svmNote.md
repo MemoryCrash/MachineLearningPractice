@@ -107,6 +107,8 @@ s.t.
 
 ### SMO 优化算法        
 
+#### 取值范围
+
 考虑使用[SMO优化算法](https://zh.wikipedia.org/wiki/序列最小优化算法)来求解(3)的问题。在这个算法中我们需要寻找![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{i})的值来使得(3)出现最优解。这里我们先介绍一个叫做坐标上升的算法(对应有个坐标下降)，它的思想是当需要求解多变量的凸函数的最优解的时候，我们选择先对其中一个变量求极限值同时固定其他变量这样逐步去逼近最优解。在这里 SMO 算法也是借鉴了这样的算法。但是受到![pi](http://latex.codecogs.com/png.latex?\textstyle\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)约束的限制。在 SMO 算法中我们选择一次改变两个变量![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1},\alpha&space;_{2})。根据约束条件:
 
 ![pi](http://latex.codecogs.com/gif.latex?0\leq&space;\alpha&space;_{i}\leq&space;C)
@@ -141,7 +143,11 @@ s.t.
 
 ![pi](http://latex.codecogs.com/gif.latex?\alpha_{1}^{old}+\alpha_{2}^{old}=\alpha_{2}^{new}+\alpha_{2}^{new}=k)
 
-这个这样理解的如果y的相等则符号相同y不相等则符号相反而y作为输出只能取1或者-1。求得这个取值范围后的作用是什么呢？主要是提供给我们对优化后的![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{i})进行裁剪使用。下面我们直接给出![pi](http://latex.codecogs.com/gif.latex?\alpha_{2}^{new})的更新公式:
+这个这样理解的如果y的相等则符号相同y不相等则符号相反而y作为输出只能取1或者-1。求得这个取值范围后的作用是什么呢？主要是提供给我们对优化后的![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{i})进行裁剪使用。
+
+#### 更新公式
+
+下面我们直接给出![pi](http://latex.codecogs.com/gif.latex?\alpha_{2}^{new})的更新公式:
 
 ![pi](http://latex.codecogs.com/gif.latex?\alpha_{2}^{new}=\alpha&space;_{2}^{old}&plus;\frac{y_{2}(E_{1}-E_{2})}{\eta&space;})
 
@@ -162,6 +168,8 @@ s.t.
 另
 
 ![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1}^{new}=&space;\alpha&space;_{1}^{old}&plus;y_{1}y_{2}(&space;\alpha&space;_{2}^{old}-\alpha&space;_{2}^{new}))
+
+#### 变量获取
 
 ### 软间隔         
 先前我们讨论的都是完全线性可分的数据，但是实际中的数据可能是线性不可分数据，通常情况是训练数据中有一些奇异点，将这些奇艺点去掉以后，剩下大部分集合是线性可分的。这就可以修改硬间隔最大化，使其成为软间隔最大化。   
