@@ -117,8 +117,31 @@ s.t.
 
 <img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmRange.png"/>
 
-这个图形表现了![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1},\alpha&space;_{2})的取值范围。现在我们将其通过公式表达出来。
+这个图形表现了![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1},\alpha&space;_{2})的取值范围。现在我们将其通过公式表达出来这里我们以求解
+![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{2})
+在
+![pi](http://latex.codecogs.com/gif.latex?y_{1}\neq&space;y_{2})
+条件下取值范围为例子。根据上面的公式我们可以得出这样的结论:
 
+![pi](http://latex.codecogs.com/gif.latex?\alpha_{1}^{old}-\alpha_{2}^{old}=\alpha_{2}^{new}-\alpha_{2}^{new}=k)
+
+结合
+
+![pi](http://latex.codecogs.com/gif.latex?0\leq&space;\alpha_{1}^{new}\leq&space;C)
+
+得到
+
+![pi](http://latex.codecogs.com/gif.latex?-k\leq&space;\alpha_{2}^{new}\leq&space;C-k)
+
+将k替换掉得到
+
+![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{2}^{old}-\alpha&space;_{1}^{old}\leq&space;\alpha_{2}^{new}\leq&space;C&plus;\alpha&space;_{2}^{old}-\alpha&space;_{1}^{old})
+
+![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1}^{new})也可以同样这样得到。同时说明如果![pi](http://latex.codecogs.com/gif.latex?y_{1}=y_{2})时
+
+![pi](http://latex.codecogs.com/gif.latex?\alpha_{1}^{old}+\alpha_{2}^{old}=\alpha_{2}^{new}+\alpha_{2}^{new}=k)
+
+这个这样理解的如果y的相等则符号相同y不相等则符号相反而y作为输出只能取1或者-1。
 ### 软间隔         
 先前我们讨论的都是完全线性可分的数据，但是实际中的数据可能是线性不可分数据，通常情况是训练数据中有一些奇异点，将这些奇艺点去掉以后，剩下大部分集合是线性可分的。这就可以修改硬间隔最大化，使其成为软间隔最大化。   
 
