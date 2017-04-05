@@ -141,7 +141,28 @@ s.t.
 
 ![pi](http://latex.codecogs.com/gif.latex?\alpha_{1}^{old}+\alpha_{2}^{old}=\alpha_{2}^{new}+\alpha_{2}^{new}=k)
 
-这个这样理解的如果y的相等则符号相同y不相等则符号相反而y作为输出只能取1或者-1。
+这个这样理解的如果y的相等则符号相同y不相等则符号相反而y作为输出只能取1或者-1。求得这个取值范围后的作用是什么呢？主要是提供给我们对优化后的![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{i})进行裁剪使用。下面我们直接给出![pi](http://latex.codecogs.com/gif.latex?\alpha_{2}^{new})的更新公式:
+
+![pi](http://latex.codecogs.com/gif.latex?\alpha_{2}^{new}=\alpha&space;_{2}^{old}&plus;\frac{y_{2}(E_{1}-E_{2})}{\eta&space;})
+
+其中
+
+![pi](http://latex.codecogs.com/gif.latex?\eta&space;=K_{11}&plus;K_{22}-2K_{12})
+
+![pi](http://latex.codecogs.com/gif.latex?E_{i}=g_{x_{i}}-y_{i}=\left&space;\{&space;\sum_{j=1}^{N}\alpha&space;_{j}y_{j}K(x_{j},x_{i})&plus;b&space;\right&space;\}-y_{i},i=1,2...)
+
+![pi](http://latex.codecogs.com/gif.latex?E_{i})其实就是模型输出的值和训练集本身的值之间的误差。
+当获得了根据下面的判断条件对![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{2}^{new})进行裁剪:
+* ![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{2}^{new}>&space;H)取H
+
+* ![pi](http://latex.codecogs.com/gif.latex?L\leq&space;\alpha&space;_{2}^{new}\leq&space;H)取![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{2}^{new})
+
+* ![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{2}^{new}<&space;L)取L
+
+另
+
+![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1}^{new}=&space;\alpha&space;_{1}^{old}&plus;y_{1}y_{2}(&space;\alpha&space;_{2}^{old}-\alpha&space;_{2}^{new}))
+
 ### 软间隔         
 先前我们讨论的都是完全线性可分的数据，但是实际中的数据可能是线性不可分数据，通常情况是训练数据中有一些奇异点，将这些奇艺点去掉以后，剩下大部分集合是线性可分的。这就可以修改硬间隔最大化，使其成为软间隔最大化。   
 
