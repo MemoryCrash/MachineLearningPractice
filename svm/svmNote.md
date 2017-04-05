@@ -107,8 +107,17 @@ s.t.
 
 ### SMO 优化算法        
 
-考虑使用[SMO优化算法](https://zh.wikipedia.org/wiki/序列最小优化算法)来求解(3)的问题。在这个算法中我们需要寻找![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{i})的值来使得(3)出现最优解。这里我们先介绍一个叫做坐标上升的算法(对应有个坐标下降)，它的思想是当需要求解多变量的凸函数的最优解的时候，我们选择先对其中一个变量求极限值同时固定其他变量这样逐步去逼近最优解。在这里 SMO 算法也是借鉴了这样的算法。但是受到![pi](http://latex.codecogs.com/png.latex?\textstyle\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)约束的限制。在 SMO 算法中我们选择一次改变两个变量![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1},\alpha&space;_{2})
+考虑使用[SMO优化算法](https://zh.wikipedia.org/wiki/序列最小优化算法)来求解(3)的问题。在这个算法中我们需要寻找![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{i})的值来使得(3)出现最优解。这里我们先介绍一个叫做坐标上升的算法(对应有个坐标下降)，它的思想是当需要求解多变量的凸函数的最优解的时候，我们选择先对其中一个变量求极限值同时固定其他变量这样逐步去逼近最优解。在这里 SMO 算法也是借鉴了这样的算法。但是受到![pi](http://latex.codecogs.com/png.latex?\textstyle\sum_{i=1}^{N}\alpha&space;_{i}y_{i}=0)约束的限制。在 SMO 算法中我们选择一次改变两个变量![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1},\alpha&space;_{2})。根据约束条件:
 
+![pi](http://latex.codecogs.com/gif.latex?0\leq&space;\alpha&space;_{i}\leq&space;C)
+
+![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1}y_{1}&plus;\alpha&space;_{2}y_{2}=-\sum_{i=3}^{N}\alpha&space;_{i}y_{i}=\xi)
+
+可以画出如下的图像
+
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/svmRange.png"/>
+
+这个图形表现了![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{1},\alpha&space;_{2})的取值范围。现在我们将其通过公式表达出来。
 
 ### 软间隔         
 先前我们讨论的都是完全线性可分的数据，但是实际中的数据可能是线性不可分数据，通常情况是训练数据中有一些奇异点，将这些奇艺点去掉以后，剩下大部分集合是线性可分的。这就可以修改硬间隔最大化，使其成为软间隔最大化。   
