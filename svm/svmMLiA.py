@@ -4,6 +4,7 @@
 from numpy import *
 
 
+# 加载训练数据
 def loadDataSet(fileName):
     dataMat = []
     lableMat = []
@@ -19,6 +20,7 @@ def loadDataSet(fileName):
     return dataMat, lableMat
 
 
+# 随机选择第二个待优化点
 def selectJrand(i, m):
     j = i
 
@@ -28,6 +30,7 @@ def selectJrand(i, m):
     return j
 
 
+# 对优化后的数据进行裁剪
 def clipAlpha(aj, H, L):
     if aj > H:
         aj = H
@@ -36,12 +39,13 @@ def clipAlpha(aj, H, L):
     return aj
 
 
+# smo简易实现
 def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
     dataMatrix = mat(dataMatIn)
     lableMat = mat(classLabels).transpose()
     b = 0
     m, n = shape(dataMatrix)
-    alphas = mat(zeros(m, 1))
+    alphas = mat(zeros((m, 1)))
     iter = 0
 
     while (iter < maxIter):
@@ -51,7 +55,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
             Ei = fXi - float(lableMat[i])
             if((lableMat[i] * Ei < -toler) and (alphas[i] < C)) or ((lableMat[i] * Ei > toler) and (alphas[i] > 0)):
                 j = selectJrand(i, m)
-                fXj = float(multiply(alphas, lableMat).T*(dataMatrix*dataMatrix[j, :].T)) + b
+                fXj = float(multiply(alphas, lableMat).T * (dataMatrix * dataMatrix[j, :].T)) + b
                 Ej = fXj - float(lableMat[j])
 
                 alphaIold = alphas[i].copy()
@@ -76,7 +80,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                     print("eta>=0")
                     continue
 
-                alphas[i] -= lableMat[j] * (Ei - Ej) / eta
+                alphas[j] -= lableMat[j] * (Ei - Ej) / eta
                 alphas[j] = clipAlpha(alphas[j], H, L)
 
                 if (abs(alphas[j] - alphaJold) < 0.00001):
@@ -84,6 +88,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                     continue
 
                 alphas[i] += lableMat[j] * lableMat[i] * (alphaJold - alphas[j])
+                
                 b1 = b - Ei - lableMat[i] * (alphas[i] - alphaIold) * \
                 dataMatrix[i, :] * dataMatrix[i, :].T - \
                 lableMat[j] * (alphas[j] - alphaJold) * \
@@ -116,5 +121,8 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
 
 if __name__ == '__main__':
     dataArr, labelArr = loadDataSet("./dataSource/testSet.txt")
-    print(labelArr)
-
+    # print(labelArr)
+    b, alphas = smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
+    print("output")
+    print(b)
+    print(alphas[alphas > 0])
