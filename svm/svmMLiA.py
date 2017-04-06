@@ -120,7 +120,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
 
 
 class optStruct:
-    def __init__(self, dataMatIn, classLabels, C, toler):
+    def __init__(self, dataMatIn, classLabels, C, toler, kTup):
         self.X = dataMatIn
         self.lableMat = classLabels
         self.C = C
@@ -129,10 +129,13 @@ class optStruct:
         self.alphas = mat(zeros((self.m, 1)))
         self.b = 0
         self.eCache = mat(zeros((self.m, 2)))
+        self.K = mat(zeros((self.m, self.m)))
+        for i in range(self.m):
+            self.K[:, i] = kernelTrans(self.X, self.X[i, :], kTup)
 
 
 def calcEk(oS, k):
-    fXk = float(multiply(oS.alphas, oS.lableMat).T * (oS.X * oS.X[k, :].T)) + oS.b
+    fXk = float(multiply(oS.alphas, oS.lableMat).T * oS.K[:, k])+ oS.b
     Ek = fXk - float(oS.lableMat[k])
     return Ek
 
@@ -188,8 +191,7 @@ def innerL(i, oS):
         if(L == H):
             print("L==H")
             return 0
-        eta = 2.0 * oS.X[i, :] * oS.X[j, :].T - oS.X[i,:] * oS.X[i, :].T - \
-        oS.X[j, :] * oS.X[j, :].T
+        eta = 2.0 * oS.K[i, j] - oS.K[i, i] - oS.K[j, j]
 
         if eta >= 0:
             print("eta >= 0")
@@ -207,12 +209,10 @@ def innerL(i, oS):
         updateEk(oS, i)
 
         b1 = oS.b - Ei - oS.lableMat[i] * (oS.alphas[i] - alphaIold) * \
-        oS.X[i, :] * oS.X[i, :].T - oS.lableMat[j] * \
-        (oS.alphas[j] - alphaJold) * oS.X[i, :] * oS.X[j, :].T
+        oS.K[i, i] - oS.lableMat[j] * (oS.alphas[j] - alphaJold) * oS.K[i, j]
 
         b2 = oS.b - Ej - oS.lableMat[i] * (oS.alphas[i] - alphaIold) * \
-        oS.X[i, :] * oS.X[j, :].T - oS.lableMat[j] * \
-        (oS.alphas[j] - alphaJold) * oS.X[j, :] * oS.X[j, :].T
+        oS.K[i, j] - oS.lableMat[j] * (oS.alphas[j] - alphaJold) * oS.K[j, j]
 
         if(0 < oS.alphas[i] and oS.C > oS.alphas[i]):
             oS.b = b1
@@ -264,6 +264,23 @@ def calcWs(alphas, dataArr, classLabels):
         w += multiply(alphas[i] * lableMat[i], X[i, :].T)
 
     return w
+
+
+def kernelTrans(X, A, kTup):
+    m, n = shape(X)
+    K = mat(zeros((m, 1)))
+    if kTup[0] == 'lin':
+        K = X * A.T
+    elif(kTup[0] == 'rbf'):
+        for j in range(m):
+            deltaRow = X[j, :] - A
+            K[j] = deltaRow * deltaRow.T
+        K = exp(K / (-1 * kTup[1] ** 2))
+    else:
+        raise NameError('Houston We Have a Problem That Kernel is not recognized')
+
+    return K
+
 
 
 if __name__ == '__main__':
