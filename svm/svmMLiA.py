@@ -228,7 +228,7 @@ def innerL(i, oS):
 
 
 def smoP(dataMatIn, classLabels, C, toler, maxIter, kTup = ('lin', 0)):
-    oS = optStruct(mat(dataMatIn), mat(classLabels).transpose(), C, toler)
+    oS = optStruct(mat(dataMatIn), mat(classLabels).transpose(), C, toler, kTup)
     iter = 0
     entireSet = True
     alphaPairsChanged = 0
@@ -282,8 +282,43 @@ def kernelTrans(X, A, kTup):
     return K
 
 
+def testRbf(k1 = 1.3):
+    dataArr, labelArr = loadDataSet("./dataSource/testSetRBF.txt")
+    b, alphas = smoP(dataArr, labelArr, 200, 0.0001, 10000, ('rbf', k1))
+    datMat = mat(dataArr)
+    lableMat = mat(labelArr).transpose()
+    svInd = nonzero(alphas.A > 0)[0]
+    sVs = datMat[svInd]
+    labelSV = lableMat[svInd]
+    print("there are %d support Vectors" % shape(sVs)[0])
+    m, n = shape(datMat)
+    errorCount = 0
+
+    for i in range(m):
+        kernelEval = kernelTrans(sVs, datMat[i, :], ('rbf', k1))
+        predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b
+        if sign(predict) != sign(labelArr[i]):
+            errorCount += 1
+
+    print("the training error rate is:%f" % (float(errorCount) / m))
+
+    dataArr, labelArr = loadDataSet("./dataSource/testSetRBF2.txt")
+    datMat = mat(dataArr)
+    lableMat = mat(labelArr).transpose()
+    m, n = shape(datMat)
+    errorCount = 0
+
+    for i in range(m):
+        kernelEval = kernelTrans(sVs, datMat[i, :], ('rbf', k1))
+        predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b
+        if sign(predict) != sign(labelArr[i]):
+            errorCount += 1
+
+    print("the test error rate is:%f"%(float(errorCount)/m))  
+
 
 if __name__ == '__main__':
+    '''
     dataArr, labelArr = loadDataSet("./dataSource/testSet.txt")
 
     b, alphas = smoP(dataArr, labelArr, 0.6, 0.001, 40)
@@ -292,9 +327,7 @@ if __name__ == '__main__':
     ws = calcWs(alphas, dataArr, labelArr)
 
     datMat = mat(dataArr)
-    print(datMat[0] * mat(ws) + b)
-    print(labelArr[0])
-    print(datMat[1] * mat(ws) + b)
-    print(labelArr[1])
-    print(datMat[2] * mat(ws) + b)
-    print(labelArr[2])
+    '''
+    testRbf()
+
+
