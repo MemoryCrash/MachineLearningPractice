@@ -22,6 +22,19 @@ Ent(D)的值越小则，D的纯度越高。现在我们找到度量样本集合�
 
 ![pi](http://latex.codecogs.com/gif.latex?g(D,a)=Ent(D)-\sum_{n=1}^{N}\frac{\left&space;|&space;D^{n}&space;\right&space;|}{\left&space;|&space;D&space;\right&space;|}Ent(D^{n}))
 
+### 生成决策树
+
+我们依据信息增益来生成决策树具体流程如下:
+输入:训练数据集合D，特征集A，阀值![pi](http://latex.codecogs.com/gif.latex?\varepsilon)
+输出:决策树
+
+* 1 若D中所有实例属于同一类![pi](http://latex.codecogs.com/gif.latex?C_{k})，则T为单结点树，并将类![pi](http://latex.codecogs.com/gif.latex?C_{k})作为该结点的类标记，返回T
+* 2 若![pi](http://latex.codecogs.com/gif.latex?A=\phi)，则T为单结点树，并将D中实例树最大的类![pi](http://latex.codecogs.com/gif.latex?C_{k})作为该结点的类标记，返回T
+* 3 否则，计算A中各个特征对D的信息增益，选择信息增益最大的特征![pi](http://latex.codecogs.com/gif.latex?A_{g})
+* 4 如果![pi](http://latex.codecogs.com/gif.latex?A_{g})的信息增益小于阀值![pi](http://latex.codecogs.com/gif.latex?\varepsilon)，则置T为单节点树，并将D中实例数最大的类![pi](http://latex.codecogs.com/gif.latex?C_{k})作为该结点的类标记，返回T
+* 5 否则，对![pi](http://latex.codecogs.com/gif.latex?A_{g})的每一可能值![pi](http://latex.codecogs.com/gif.latex?a_{i})，依![pi](http://latex.codecogs.com/gif.latex?A_{g}=a_{i})将D分割为若干非空子集![pi](http://latex.codecogs.com/gif.latex?D_{i})，将![pi](http://latex.codecogs.com/gif.latex?D_{i})中实例数最大的类作为标记，构建子结点，由结点及子结点构成树T，返回T
+* 6 对第i个子结点，以![pi](http://latex.codecogs.com/gif.latex?D_{i})为训练集，以![pi](http://latex.codecogs.com/gif.latex?A-A_{g})为特征集，递归地调用步1～步5，得到子树![pi](http://latex.codecogs.com/gif.latex?T_{i})返回![pi](http://latex.codecogs.com/gif.latex?T_{i})
+
 ## 参考书籍
 
 《机器学习实战》 Peter Harrington 著 李锐 译    
