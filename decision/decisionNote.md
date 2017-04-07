@@ -16,7 +16,12 @@
 
 ![pi](http://latex.codecogs.com/gif.latex?Ent(D)=-\sum_{k=1}^{Y}p_{k}log_{2}p_{k})
 
-Ent(D)的值越小则，D的纯度越高。现在我们找到度量样本集合纯度的方法。现在需要的是找到一种划分效果最好的特征，按照这个思路来进行理解，就是使用某个特征进行划分后的样本集合的信息熵变小了也就是对应到样本集合的纯度在按照某个特征进行划分后得到了提高。当然我们的一个训练样本对应了肯定不止一个特征，所以我们就需要在这些特征中找到能使的样本集合的纯度提高的最多的那个作为分类划分的特征。我们用信息增益表示按照某个特征进行分类后信息纯度提高的量。
+Ent(D)的值越小则，D的纯度越高。现在我们找到度量样本集合纯度的方法。现在需要的是找到一种划分效果最好的特征，按照这个思路来进行理解，就是使用某个特征进行划分后的样本集合的信息熵变小了也就是对应到样本集合的纯度在按照某个特征进行划分后得到了提高。当然我们的一个训练样本对应了肯定不止一个特征，所以我们就需要在这些特征中找到能使的样本集合的纯度提高的最多的那个作为分类划分的特征。我们用信息增益表示按照某个特征进行分类后信息纯度提高的量。   
+
+假设集合D有特征a，其中a特征可以取的值有N个，同时![pi](http://latex.codecogs.com/gif.latex?\left&space;|&space;D^{n}&space;\right&space;|)表示a特征的某个取值对应的集合样本数量。![pi](http://latex.codecogs.com/gif.latex?\left&space;|&space;D\right&space;|)表示总的训练样本数量。那么使用特征a来进行分类的信息增益就是:
+
+![pi](http://latex.codecogs.com/gif.latex?g(D,a)=Ent(D)-\sum_{n=1}^{N}\frac{\left&space;|&space;D^{n}&space;\right&space;|}{\left&space;|&space;D&space;\right&space;|}Ent(D^{n}))
+
 ## 参考书籍
 
 《机器学习实战》 Peter Harrington 著 李锐 译    
