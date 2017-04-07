@@ -35,6 +35,15 @@ Ent(D)的值越小则，D的纯度越高。现在我们找到度量样本集合�
 * 5 否则，对![pi](http://latex.codecogs.com/gif.latex?A_{g})的每一可能值![pi](http://latex.codecogs.com/gif.latex?a_{i})，依![pi](http://latex.codecogs.com/gif.latex?A_{g}=a_{i})将D分割为若干非空子集![pi](http://latex.codecogs.com/gif.latex?D_{i})，将![pi](http://latex.codecogs.com/gif.latex?D_{i})中实例数最大的类作为标记，构建子结点，由结点及子结点构成树T，返回T
 * 6 对第i个子结点，以![pi](http://latex.codecogs.com/gif.latex?D_{i})为训练集，以![pi](http://latex.codecogs.com/gif.latex?A-A_{g})为特征集，递归地调用步1～步5，得到子树![pi](http://latex.codecogs.com/gif.latex?T_{i})返回![pi](http://latex.codecogs.com/gif.latex?T_{i})
 
+### 信息增益和信息增益率
+当我们使用信息增益来为依据进行分类的时候会发现这种方法对于取值比较多的属性有所偏好，为了减少这种偏好引入了信息增益率:
+
+![pi](http://latex.codecogs.com/gif.latex?g_{R}(D,A)=\frac{g(D,a)}{H_{a}(D)})
+
+![pi](http://latex.codecogs.com/gif.latex?H_{a}(D)=-\sum_{i=1}^{n}\frac{\left&space;|&space;D_{i}&space;\right&space;|}{\left&space;|&space;D&space;\right&space;|}log_{2}\frac{\left&space;|&space;D_{i}&space;\right&space;|}{\left&space;|&space;D&space;\right&space;|})
+
+这里我们可以看出分母是的取值是如果a的取值越多那么就越大，通过这样来惩罚取值比较多的属性。但是这样又可能产生对取值比较少的特征的偏好。所以在实际情况下会综合下各种情况，先从候选划分属性中找出**信息增益**高于平均水平的属性，再从这里面选择**信息增益率**比较高的特征出来。
+
 ## 参考书籍
 
 《机器学习实战》 Peter Harrington 著 李锐 译    
