@@ -20,6 +20,14 @@
 
 输出：最终分类器G(x)
 
+* 1 初始化数据的权值分布
+&emsp;![pi](http://latex.codecogs.com/gif.latex?D_{1}=(w_{11},...,w_{1i},...,w_{1N}),w_{1i}=\frac{1}{N},i=1,2,...,N)
+
+* 2 对m=1,2,...,M
+
+* 2.1 使用具有权值分布![pi](http://latex.codecogs.com/gif.latex?D_{m})的训练数据集学习，得到基本分类器
+&emsp;![pi](http://latex.codecogs.com/gif.latex?G_{m}:\chi&space;\rightarrow&space;\{-1,&plus;1\})
+
 
 ## 参考书籍
 
