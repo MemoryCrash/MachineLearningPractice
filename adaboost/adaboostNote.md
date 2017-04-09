@@ -38,8 +38,15 @@
 &emsp;![pi](http://latex.codecogs.com/gif.latex?D_{m&plus;1}=(w_{m&plus;1,1},...,w_{m&plus;1,i},...,w_{m&plus;1,N)})
 &emsp;![pi](http://latex.codecogs.com/gif.latex?w_{m&plus;1,i}=\frac{w_{mi}}{Z_{m}}exp(-\alpha&space;_{m}y_{i}G_{m}(x_{i})),i=1,2,...,N)
 
-&emsp;这里，![pi](http://latex.codecogs.com/gif.latex?Z_{m})是规范化因子
+&emsp;这里，![pi](http://latex.codecogs.com/gif.latex?Z_{m})是规范化因子，它使的![pi](http://latex.codecogs.com/gif.latex?D_{m&plus;1})成为一个概率分布。
 
+* 3 构建基本分类器的线性组合
+
+&emsp;![pi](http://latex.codecogs.com/gif.latex?f\left&space;(&space;x&space;\right&space;)=\sum_{m=1}^{M}\alpha&space;_{m}G_{m}(x))
+
+&emsp;得到最终分类器
+
+&emsp;![pi](http://latex.codecogs.com/gif.latex?G_{x}=sign(f(x))=sign(\sum_{m=1}^{M}\alpha&space;_{m}G_{m}(x)))
 
 ## 参考书籍
 
