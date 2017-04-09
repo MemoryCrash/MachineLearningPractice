@@ -48,6 +48,12 @@
 
 &emsp;![pi](http://latex.codecogs.com/gif.latex?G_{x}=sign(f(x))=sign(\sum_{m=1}^{M}\alpha&space;_{m}G_{m}(x)))
 
+可以通过下图来理解。
+
+<img src = "https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/adaBoostDetail.jpg" width=50% height = 50%/>
+
+这里的第一排的图中黑色条代表我们的训练数据，而每一个基学习器对应训练数据可以看到有些长还有些短这就是改变训练数据权值的过程。最后每个基学习器对应了一个三角形表示这个学习器的表决权重。最后进行汇总输出结果。
+
 ## 参考书籍
 
 《机器学习实战》 Peter Harrington 著 李锐 译    
