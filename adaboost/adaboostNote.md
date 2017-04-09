@@ -28,6 +28,18 @@
 * 2.1 使用具有权值分布![pi](http://latex.codecogs.com/gif.latex?D_{m})的训练数据集学习，得到基本分类器
 &emsp;![pi](http://latex.codecogs.com/gif.latex?G_{m}:\chi&space;\rightarrow&space;\{-1,&plus;1\})
 
+* 2.2 计算![pi](http://latex.codecogs.com/gif.latex?G_{m}(x))在训练数据集上的分类误差率
+&emsp;![pi](http://latex.codecogs.com/gif.latex?e_{m}=P(G_{m}(x_{i})\neq&space;y_{i})=\sum_{i=1}^{N}w_{mi}I(G_{m}(x_{i})\neq&space;y_{i}))
+
+* 2.3 计算![pi](http://latex.codecogs.com/gif.latex?G_{m}(x))的系数，这里的对数是自然对数
+&emsp;![pi](http://latex.codecogs.com/gif.latex?\alpha&space;_{m}=\frac{1}{2}log\frac{1-e_{m}}{e_{m}})
+
+* 2.4 更新训练数据集的权值分布
+&emsp;![pi](http://latex.codecogs.com/gif.latex?D_{m&plus;1}=(w_{m&plus;1,1},...,w_{m&plus;1,i},...,w_{m&plus;1,N)})
+&emsp;![pi](http://latex.codecogs.com/gif.latex?w_{m&plus;1,i}=\frac{w_{mi}}{Z_{m}}exp(-\alpha&space;_{m}y_{i}G_{m}(x_{i})),i=1,2,...,N)
+
+&emsp;这里，![pi](http://latex.codecogs.com/gif.latex?Z_{m})是规范化因子
+
 
 ## 参考书籍
 
