@@ -1,4 +1,4 @@
-# K-means 学习笔记
+# K-means&EM 学习笔记
 
 ## 背景
 
