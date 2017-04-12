@@ -42,7 +42,17 @@ EM即是expectation-maximization，是一种迭代算法。分为两步，E步�
 
 完全数据的对数似然函数![pi](http://latex.codecogs.com/png.latex?logP(Y,Z|\theta&space;))关于在给定观测数据Y和当前参数![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i})下对未观测数据Z的条件概率分布![pi](http://latex.codecogs.com/png.latex?P(Z|Y,\theta&space;^{i}))的期望称为Q函数，即
 
+![pi](http://latex.codecogs.com/png.latex?Q(\theta&space;,\theta&space;^{i})=E_{z}[logP(Y,Z|\theta&space;)|Y,\theta&space;^{i}])
 
+下面关于EM算法作几点说明：    
+步骤1 参数的初值可以任意选择，但是需注意EM算法对初值是敏感的.     
+步骤2 E步求![pi](http://latex.codecogs.com/png.latex?Q(\theta&space;,\theta&space;^{i}))。Q函数式中Z是未观测数据，Y是观测数据。注意，![pi](http://latex.codecogs.com/png.latex?Q(\theta&space;,\theta&space;^{i}))的第1个变元表示要极大化的参数，第2个变元表示参数的当前估计值。每次迭代实际在求Q函数及其极大。       
+步骤3 M步求![pi](http://latex.codecogs.com/png.latex?Q(\theta&space;,\theta&space;^{i}))的极大化，得到![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i&plus;1})，完成一次迭代![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i}\rightarrow&space;\theta&space;^{i&plus;1})后面将证明每次迭代使似然函数增大或达到局部极值。     
+步骤4 给出停止迭代的条件，一般是对较小的正数![pi](http://latex.codecogs.com/png.latex?\varepsilon&space;_{1},\varepsilon&space;_{2})若满足.      
+
+![pi](http://latex.codecogs.com/png.latex?\left&space;\|&space;\theta&space;^{i&plus;1}-\theta&space;^{i}&space;\right&space;\|<\varepsilon&space;_{1})或者![pi](http://latex.codecogs.com/png.latex?\left&space;\|&space;Q(\theta&space;^{i&plus;1},\theta&space;^{i})&space;-Q(\theta&space;^{i},\theta&space;^{i})\right&space;\|<\varepsilon&space;_{2})
+
+则停止迭代
 
 ## GMM
 
