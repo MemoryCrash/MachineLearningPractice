@@ -104,7 +104,20 @@ Repeat until convergence{
 
 <img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/em.jpg" width=50% height=50%/>
 
-## GMM
+## GMM Gaussian Mixture Model
+
+GMM(高斯混合模型)可以算是EM算法的一个应用。
+根据EM算法：
+
+E-step      
+![pi](http://latex.codecogs.com/png.latex?w_{j}^{i}=Q_{i}(z^{i}=j)=P(z^{i}=j|x^{i};\phi&space;,\mu&space;,\Sigma&space;))    
+
+M-step     
+![pi](http://latex.codecogs.com/png.latex?\sum_{i=1}^{m}\sum_{z^{i}}Q_{i}(z^{i})log\frac{p(x^{i},z^{i};\phi&space;,\mu&space;,\Sigma&space;)}{Q_{i}(z^{i})})     
+&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?=\sum_{i=1}^{m}\sum_{j=1}^{k}Q_{i}(z^{i})log\frac{p(x^{i}|z^{i}=j;\mu&space;,\Sigma&space;)p(z^{i}=j;\phi&space;)}{Q_{i}(z^{i})})   
+&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?=\sum_{i=1}^{m}\sum_{j=1}^{k}w_{j}^{i}log\frac{\frac{1}{(2\pi&space;)^{\frac{2}{n}}\left&space;|&space;\Sigma&space;_{j}&space;\right&space;|^{\frac{1}{2}}}exp(-\frac{1}{2}(x^{i}-\mu&space;_{j})^{T}\Sigma&space;_{j}^{-1}(x^{i}-\mu&space;_{j}))\cdot&space;\phi&space;_{j}}{w_{j}^{i}})     
+
+在M-step中获取极大值的方式是对![pi](http://latex.codecogs.com/png.latex?\mu&space;_{l},\phi&space;_{j},\Sigma)求导并令其为0。   
 
 ## 参考书籍
 
