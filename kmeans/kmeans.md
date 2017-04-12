@@ -119,6 +119,12 @@ M-step
 
 在M-step中获取极大值的方式是对![pi](http://latex.codecogs.com/png.latex?\mu&space;_{l},\phi&space;_{j},\Sigma)求导并令其为0。   
 
+1. 对参数![pi](http://latex.codecogs.com/png.latex?\mu&space;_{l})求导    
+
+2. 对参数![pi](http://latex.codecogs.com/png.latex?\phi&space;_{j})求导  
+
+3. 对参数![pi](http://latex.codecogs.com/png.latex?\Sigma)求导    
+
 ## 参考书籍
 
 [1]《机器学习实战》 Peter Harrington 著 李锐 译    
