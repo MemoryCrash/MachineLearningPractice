@@ -12,15 +12,31 @@
 
 ## EM
 
-EM即是expectation-maximization，是一种迭代算法。分为两步，E步求期望；M步求极大值。EM的一个应用就是GMM(混合高斯模型)。我们在观察数据的时候可能存在隐藏数据，举个例子我们的数据由多个高斯分布组合成，但是我们并不知道具体哪个数据是属于那个高斯分布。我们所观察到的只是混合后所呈现出来的数据。但是我们最终是需要将生成数据的高斯分布都求解出来。
+EM即是expectation-maximization，是一种迭代算法。分为两步，E步求期望；M步求极大值。EM的一个应用就是GMM(混合高斯模型)。我们在观察数据的时候可能存在隐藏数据，举个例子我们的数据由多个高斯分布组合成，但是我们并不知道具体哪个数据是属于那个高斯分布。我们所观察到的只是混合后所呈现出来的数据。但是我们最终是需要将生成数据的高斯分布都求解出来。EM 算法迭代的过程如下图示：
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/em.jpg" width=50% height=50% />
+
+### EM 算法的步骤(此处参考[2]中第9章的内容)
+
+输入：观察变量数据Y，隐变量数据Z，联合分布![pi](http://latex.codecogs.com/png.latex?P(Y,Z|\theta&space;))，条件分布![pi](http://latex.codecogs.com/png.latex?P(Z|Y,\theta&space;))；
+
+输出：模型参数![pi](http://latex.codecogs.com/png.latex?\theta)    
+
+1. 选择参数的初值![pi](http://latex.codecogs.com/png.latex?\theta&space;^{0})，开始迭代；
+
+2. E步：记![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i})为第i次迭代参数![pi](http://latex.codecogs.com/png.latex?\theta)的估计值，在第i+1次迭代的E步，计算
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?Q(\theta&space;,\theta&space;^{i})=E_{z}[logP(Y,Z|\theta&space;)|Y,\theta&space;^{i}])
+
+&emsp;&emsp;&emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?=\sum_{Z}logP(Y,Z|\theta&space;)P(Z|Y,\theta&space;^{i}))
 
 ## GMM
 
 ## 参考书籍
 
-《机器学习实战》 Peter Harrington 著 李锐 译    
-《统计学习方法》 李航 著   
-《机器学习》 周志华 著        
-《斯坦福大学公开课：机器学习课程 cs229 吴恩达     
-[《斯坦福大学机器学习——EM算法求解高斯混合模型》](http://blog.csdn.net/linkin1005/article/details/41212085)     
-[《EM算法与混合高斯模型》](http://blog.csdn.net/star_dragon/article/details/51058591#fnref:footnote)
+[1]《机器学习实战》 Peter Harrington 著 李锐 译    
+[2]《统计学习方法》 李航 著   
+[3]《机器学习》 周志华 著        
+[4]《斯坦福大学公开课：机器学习课程 cs229 吴恩达     
+[5][《斯坦福大学机器学习——EM算法求解高斯混合模型》](http://blog.csdn.net/linkin1005/article/details/41212085)     
+[6][《EM算法与混合高斯模型》](http://blog.csdn.net/star_dragon/article/details/51058591#fnref:footnote)
