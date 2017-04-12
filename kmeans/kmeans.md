@@ -30,6 +30,20 @@ EM即是expectation-maximization，是一种迭代算法。分为两步，E步�
 
 &emsp;&emsp;&emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?=\sum_{Z}logP(Y,Z|\theta&space;)P(Z|Y,\theta&space;^{i}))
 
+这里，![pi](http://latex.codecogs.com/png.latex?P(Z|Y,\theta&space;^{i}))是在给定观测数据Y和当前的参数估计![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i})下隐变量数据Z的条件概率分布；
+
+3. M步：求使![pi](http://latex.codecogs.com/png.latex?Q(\theta&space;,\theta&space;^{i}))极大后的![pi](http://latex.codecogs.com/png.latex?\theta)，确定第i+1次迭代的参数的估计值![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i&plus;1})
+
+&emsp;![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i&plus;1}=arg&space;max_{\theta&space;}Q(\theta&space;,\theta&space;^{i}))
+
+4. 重复第2步和第3步，直达收敛。
+
+### Q函数   
+
+完全数据的对数似然函数![pi](http://latex.codecogs.com/png.latex?logP(Y,Z|\theta&space;))关于在给定观测数据Y和当前参数![pi](http://latex.codecogs.com/png.latex?\theta&space;^{i})下对未观测数据Z的条件概率分布![pi](http://latex.codecogs.com/png.latex?P(Z|Y,\theta&space;^{i}))的期望称为Q函数，即
+
+
+
 ## GMM
 
 ## 参考书籍
