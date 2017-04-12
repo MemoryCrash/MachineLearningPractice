@@ -76,6 +76,31 @@ EM即是expectation-maximization，是一种迭代算法。分为两步，E步�
 
 后面的不等式是根据jensen不等式得到。方法是将![pi](http://latex.codecogs.com/png.latex?\sum_{z^{i}}Q_{i}(z^{i})\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})}) 看作是关于分布Q关于后面![pi](http://latex.codecogs.com/png.latex?\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})})的期望。f(x)就是log函数，是个凹函数，和我们刚才以凸函数为例介绍的jensen不等式结论刚好相反。变成了f(E[x])>=E[f(x)]，这样就得到了(1)式中的大于等于号右边的内容。为什么我们需要这个不等式？因为有了这个不等式我们就知道我们估计的似然函数的下界。并且在![pi](http://latex.codecogs.com/png.latex?\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})})等于常数的时候就取等号。
 
+那么![pi](http://latex.codecogs.com/png.latex?Q_{i}(z^{i}))我们如何获取呢？    
+我们根据jensen不等式的等号成立条件即真实的似然曲线和我们估计值相等的条件:
+
+![pi](http://latex.codecogs.com/png.latex?\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})}=c)    
+结合        
+![pi](http://latex.codecogs.com/png.latex?\sum_{z}Q_{i}(z)=1)     
+得到：   
+![pi](http://latex.codecogs.com/png.latex?Q_{i}(z^{i})=\frac{p(x^{i},z^{i};\theta&space;)}{\sum_{z}p(x^{i},z;\theta&space;)})     
+&emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?=\frac{p(x^{i},z^{i};\theta&space;)}{p(x^{i};\theta&space;)})      
+&emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?=p(z^{i}|x^{i};\theta&space;))      
+
+现在就可以具体执行EM算法    
+
+1. 设置初始化值![pi](http://latex.codecogs.com/png.latex?\theta)，求似然Q的最大似然值，这个就是E(期望)。
+2. 利用Q来更新![pi](http://latex.codecogs.com/png.latex?\theta)，这就是M(最大化)。
+然后迭代下去。    
+伪代码如下：   
+Repeat until convergence{    
+(E-step)For each i, set   
+&emsp;&emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?Q_{i}(z^{i}):=p(z^{i}|x^{i};\theta&space;))   
+(M-step)Set    
+&emsp;&emsp;&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?\theta&space;:=arg&space;max_{\theta&space;}\sum_{i}\sum_{z^{i}}Q_{i}(z^{i})log\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})})   
+}
+
+
 <img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/em.jpg" width=50% height=50%/>
 
 ## GMM
