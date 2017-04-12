@@ -120,10 +120,13 @@ M-step
 在M-step中获取极大值的方式是对![pi](http://latex.codecogs.com/png.latex?\mu&space;_{l},\phi&space;_{j},\Sigma)求导并令其为0。   
 
 1. 对参数![pi](http://latex.codecogs.com/png.latex?\mu&space;_{l})求导    
+![pi](http://latex.codecogs.com/png.latex?\mu&space;_{l}:=\frac{\sum_{i=1}^{m}w_{l}^{i}x^{i}}{\sum_{i=1}^{m}w_{l}^{i}}) 
+2. 对参数![pi](http://latex.codecogs.com/png.latex?\phi&space;_{j})求导  
 
-2. 对参数![pi](http://latex.codecogs.com/png.latex?\phi&space;_{j})求导  
+![pi](http://latex.codecogs.com/png.latex?\phi&space;_{j}:=\frac{1}{m}\sum_{i=1}^{m}w_{j}^{i}) 
+3. 对参数![pi](http://latex.codecogs.com/png.latex?\Sigma)求导    
 
-3. 对参数![pi](http://latex.codecogs.com/png.latex?\Sigma)求导    
+![pi](http://latex.codecogs.com/png.latex?\Sigma&space;_{j}:=\frac{\sum_{i=1}^{m}w_{j}^{i}(x^{i}-\mu&space;_{j})(x^{i}-\mu&space;_{j})^{T}}{\sum_{i=1}^{m}w_{j}^{i}})
 
 ## 参考书籍
 
