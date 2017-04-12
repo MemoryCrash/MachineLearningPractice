@@ -61,8 +61,22 @@ EM即是expectation-maximization，是一种迭代算法。分为两步，E步�
 
 在一个凸函数中f(E[X])<=E[f(X)]，而等号成立的条件是E[X]=X，也就是X是常数。在这里我们继续回到我们现在面对的情况。我们现在有些训练数据假设他们复合某种分布现在需要找到他们的分布的具体参数。我们可以通过极大似然法去寻找最能体现训练数据的分布参数。       
 ![pi](http://latex.codecogs.com/png.latex?l(\theta&space;)=\sum_{i=1}^{m}log&space;p(x,\theta&space;))           
-这里我们使用的对数似然，这样是方便计算，并不会影响结果。刚才的情况我们设想了一种简单的情况并且得到了一个似然估计的式子，但在实际中我们可能面对这样的情况。训练数据可能是由多个分布混合而成，并不是一个单一的分布就可以表现，并且我们观察到的仅仅只是数据本身，至于隐藏在背后的这个训练数据是属于哪个分布就不得而知了。    
+这里我们使用的对数似然，这样是方便计算，并不会影响结果。刚才的情况我们设想了一种简单的情况并且得到了一个似然估计的式子，但在实际中我们可能面对这样的情况。训练数据可能是由多个分布混合而成，并不是一个单一的分布就可以表现，并且我们观察到的仅仅只是数据本身，至于隐藏在背后的这个训练数据是属于哪个分布就不得而知了。                    
+这里我们假设存在一个隐藏的变量Z它表明了具体某个训练数据是属于哪个分布。这里时候我们的似然公式就可以更新如下：
 
+![pi](http://latex.codecogs.com/png.latex?l(\theta&space;)=\sum_{i=1}^{m}log&space;\sum_{z}p(x,z;\theta&space;))
+
+不过我们并不能直接根据这个公式来求解，因为这里的z是未知的。但是我们可以根据不停的迭代去逼近最佳的解(当然也极有可能掉入到一个局部最优解)，这里我们引入z的分布函数![pi](http://latex.codecogs.com/png.latex?Q_{i})，它是随意变量![pi](http://latex.codecogs.com/png.latex?z_{i})的分布函数。并且有：
+
+![pi](http://latex.codecogs.com/png.latex?\sum_{z}Q_{i}(z)=1,Q_{i}(z)\geq&space;0)
+
+接下来利用这个，引入到我们更新过的公式中得到：
+
+![pi](http://latex.codecogs.com/png.latex?l(\theta&space;)=\sum_{i}log\sum_{z^{i}}Q_{i}(z^{i})\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})}\geq&space;\sum_{i}\sum_{z^{i}}Q_{i}(z^{i})log\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})})&emsp;(1)
+
+后面的不等式是根据jensen不等式得到。方法是将![pi](http://latex.codecogs.com/png.latex?\sum_{z^{i}}Q_{i}(z^{i})\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})}) 看作是关于分布Q关于后面![pi](http://latex.codecogs.com/png.latex?\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})})的期望。f(x)就是log函数，是个凹函数，和我们刚才以凸函数为例介绍的jensen不等式结论刚好相反。变成了f(E[x])>=E[f(x)]，这样就得到了(1)式中的大于等于号右边的内容。为什么我们需要这个不等式？因为有了这个不等式我们就知道我们估计的似然函数的下界。并且在![pi](http://latex.codecogs.com/png.latex?\frac{p(x^{i},z^{i};\theta&space;)}{Q_{i}(z^{i})})等于常数的时候就取等号。
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/em.jpg" width=50% height=50%/>
 
 ## GMM
 
