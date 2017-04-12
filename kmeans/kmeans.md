@@ -59,6 +59,11 @@ EM即是expectation-maximization，是一种迭代算法。分为两步，E步�
 这里会涉及到[jensen不等式](https://zh.wikipedia.org/wiki/延森不等式)可以根据下图来理解：     
 <img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/jensen.jpg" width=50% height=50%/>
 
+在一个凸函数中f(E[X])<=E[f(X)]，而等号成立的条件是E[X]=X，也就是X是常数。在这里我们继续回到我们现在面对的情况。我们现在有些训练数据假设他们复合某种分布现在需要找到他们的分布的具体参数。我们可以通过极大似然法去寻找最能体现训练数据的分布参数。       
+![pi](http://latex.codecogs.com/png.latex?l(\theta&space;)=\sum_{i=1}^{m}log&space;p(x,\theta&space;))           
+这里我们使用的对数似然，这样是方便计算，并不会影响结果。刚才的情况我们设想了一种简单的情况并且得到了一个似然估计的式子，但在实际中我们可能面对这样的情况。训练数据可能是由多个分布混合而成，并不是一个单一的分布就可以表现，并且我们观察到的仅仅只是数据本身，至于隐藏在背后的这个训练数据是属于哪个分布就不得而知了。    
+
+
 ## GMM
 
 ## 参考书籍
