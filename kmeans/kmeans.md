@@ -54,6 +54,11 @@ EM即是expectation-maximization，是一种迭代算法。分为两步，E步�
 
 则停止迭代
 
+## EM2(算法另外解释并不是新的算法参考[5])
+
+这里会涉及到[jensen不等式](https://zh.wikipedia.org/wiki/延森不等式)可以根据下图来理解：     
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/jensen.jpg" width=50% height=50%/>
+
 ## GMM
 
 ## 参考书籍
