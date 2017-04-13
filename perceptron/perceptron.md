@@ -21,30 +21,47 @@
 
 那问题现在转换为找到一个合适的代价函数。参考[1]中2章的描述，我们可以想到的方式是通过计算误分点的数量作为代价函数，但是这样的函数不可导难以计算。所以进一步考虑我们可以选择将误分点到分离平面的距离作为是代价函数，这样就方便多了。根据点到直线的距离公式可以得到一个误分点到分离超平面的距离是：
 
-![pi](http://latex.codecogs.com/gif.latex?\frac{\left&space;|&space;w\cdot&space;x_{0}&plus;b&space;\right&space;|}{\left&space;\|&space;w&space;\right&space;\|})
+![pi](http://latex.codecogs.com/png.latex?\frac{\left&space;|&space;w\cdot&space;x_{0}&plus;b&space;\right&space;|}{\left&space;\|&space;w&space;\right&space;\|})
 
-如何判断误分点，可以这样设想如果点被正确分类，那么这个点应该满足![pi](http://latex.codecogs.com/gif.latex?y_{0}(w\cdot&space;x_{0}&space;&plus;&space;b)>&space;0)对应如果是一个未分类正确的点，那么就应该是这样![pi](http://latex.codecogs.com/gif.latex?-y_{0}(w\cdot&space;x_{0}&space;&plus;&space;b)>&space;0)根据这些，进一步获得所有误分点的的距离和是：
+如何判断误分点，可以这样设想如果点被正确分类，那么这个点应该满足![pi](http://latex.codecogs.com/png.latex?y_{0}(w\cdot&space;x_{0}&space;&plus;&space;b)>&space;0)对应如果是一个未分类正确的点，那么就应该是这样![pi](http://latex.codecogs.com/png.latex?-y_{0}(w\cdot&space;x_{0}&space;&plus;&space;b)>&space;0)根据这些，进一步获得所有误分点的的距离和是：
 
-![pi](http://latex.codecogs.com/gif.latex?-\frac{1}{\left&space;\|&space;w&space;\right&space;\|}\sum_{x_{i\in&space;M}}y_{i}(w\cdot&space;x_{i}&space;&plus;&space;b))
+![pi](http://latex.codecogs.com/png.latex?-\frac{1}{\left&space;\|&space;w&space;\right&space;\|}\sum_{x_{i\in&space;M}}y_{i}(w\cdot&space;x_{i}&space;&plus;&space;b))
 
-在这里我们不需要考虑![pi](http://latex.codecogs.com/gif.latex?\frac{1}{\left&space;\|&space;w&space;\right&space;\|})因为它在这里是固定的，最后得到的感知机损失函数为：
+在这里我们不需要考虑![pi](http://latex.codecogs.com/png.latex?\frac{1}{\left&space;\|&space;w&space;\right&space;\|})因为它在这里是固定的，最后得到的感知机损失函数为：
 
-![pi](http://latex.codecogs.com/gif.latex?L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}(w\cdot&space;x_{i}&plus;b))
+![pi](http://latex.codecogs.com/png.latex?L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}(w\cdot&space;x_{i}&plus;b))
 
 ### 最小化代价函数
 这里我们采用随机梯度下降法来最小化代价函数。我们先找到代价函数涉及的两个变量的梯度：
 
-![pi](http://latex.codecogs.com/gif.latex?\triangledown&space;_{w}L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}x_{i}). 
+![pi](http://latex.codecogs.com/png.latex?\triangledown&space;_{w}L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}x_{i}). 
 
-![pi](http://latex.codecogs.com/gif.latex?\triangledown&space;_{b}L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}).  
+![pi](http://latex.codecogs.com/png.latex?\triangledown&space;_{b}L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}).  
 
 通过对关注的参数求导得到了梯度，但是这个还不是随机梯度。这个是所有训练数据计算后的梯度。随机梯度只需要去掉求和符号选择其中一组数据即可。这样我们的对w和b的更新策略是：
 
-![pi](http://latex.codecogs.com/gif.latex?w\leftarrow&space;w-\eta&space;(-y_{i}x_{i})). 
+![pi](http://latex.codecogs.com/png.latex?w\leftarrow&space;w-\eta&space;(-y_{i}x_{i})). 
 
-![pi](http://latex.codecogs.com/gif.latex?b\leftarrow&space;b-\eta&space;(-y_{i})).   
+![pi](http://latex.codecogs.com/png.latex?b\leftarrow&space;b-\eta&space;(-y_{i})).   
 
-这里的![pi](http://latex.codecogs.com/gif.latex?\eta)学习的速率。这样我们就获得了算法需要的内容。下面是具体的算法步骤：
+这里的![pi](http://latex.codecogs.com/png.latex?\eta)学习的速率。这样我们就获得了算法需要的内容。下面是具体的算法步骤：
+
+### 感知机学习过程
+
+输入：训练数据集![pi](http://latex.codecogs.com/png.latex?T=\{(x_{1},y_{1}),(x_{2},y_{2}),....,(x_{N},y_{N})\})，其中![pi](http://latex.codecogs.com/png.latex?x_{i}\in&space;\chi&space;=R^{n})，![pi](http://latex.codecogs.com/png.latex?y_{i}\in&space;\nu&space;=\{-1,&plus;1\})，i=1,2,...,N；学习率![pi](http://latex.codecogs.com/png.latex?\eta&space;(0<\eta&space;\leqslant&space;1))；
+
+输出：w,b；感知机模型![pi](http://latex.codecogs.com/png.latex?f(x)=sign(w\cdot&space;x&plus;b))
+
+1. 选择初值![pi](http://latex.codecogs.com/png.latex?w_{0},b_{0}). 
+2. 在训练集中选取数据![pi](http://latex.codecogs.com/png.latex?(x_{i},y_{i})).  
+3. 如果![pi](http://latex.codecogs.com/png.latex?y_{i}(w\cdot&space;x_{i}&plus;b)\leq&space;0).  
+
+&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?w\leftarrow&space;w+\eta&space;y_{i}x_{i}). 
+
+&emsp;&emsp;![pi](http://latex.codecogs.com/png.latex?b\leftarrow&space;b+\eta&space;y_{i}). 
+
+4. 转至2，直至训练集中没有误分类点。 
+
 
 ## 参考书籍
 
