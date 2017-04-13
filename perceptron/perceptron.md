@@ -27,12 +27,24 @@
 
 ![pi](http://latex.codecogs.com/gif.latex?-\frac{1}{\left&space;\|&space;w&space;\right&space;\|}\sum_{x_{i\in&space;M}}y_{i}(w\cdot&space;x_{i}&space;&plus;&space;b))
 
-在这里我们不需要考虑![pi](http://latex.codecogs.com/gif.latex?\frac{1}{\left&space;\|&space;w&space;\right&space;\|})最后得到的感知机损失函数为：
+在这里我们不需要考虑![pi](http://latex.codecogs.com/gif.latex?\frac{1}{\left&space;\|&space;w&space;\right&space;\|})因为它在这里是固定的，最后得到的感知机损失函数为：
 
 ![pi](http://latex.codecogs.com/gif.latex?L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}(w\cdot&space;x_{i}&plus;b))
 
+### 最小化代价函数
+这里我们采用随机梯度下降法来最小化代价函数。我们先找到代价函数涉及的两个变量的梯度：
 
+![pi](http://latex.codecogs.com/gif.latex?\triangledown&space;_{w}L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}x_{i}). 
 
+![pi](http://latex.codecogs.com/gif.latex?\triangledown&space;_{b}L(w,b)=-\sum_{x_{i}\in&space;M}y_{i}).  
+
+通过对关注的参数求导得到了梯度，但是这个还不是随机梯度。这个是所有训练数据计算后的梯度。随机梯度只需要去掉求和符号选择其中一组数据即可。这样我们的对w和b的更新策略是：
+
+![pi](http://latex.codecogs.com/gif.latex?w\leftarrow&space;w-\eta&space;(-y_{i}x_{i})). 
+
+![pi](http://latex.codecogs.com/gif.latex?b\leftarrow&space;b-\eta&space;(-y_{i})).   
+
+这里的![pi](http://latex.codecogs.com/gif.latex?\eta)学习的速率。这样我们就获得了算法需要的内容。下面是具体的算法步骤：
 
 ## 参考书籍
 
