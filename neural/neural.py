@@ -11,7 +11,7 @@ def runNeural():
     net = neuralTrain.Network([784, 30, 10])
     net.SGD(training_data, 30, 10, 3.0, test_data=test_data)
 
-    grayData = img2mat.rgb2gray('2.png')
+    grayData = img2mat.rgb2gray('./dataNum/1.png')
     return net.testOutput(grayData)
 
 
