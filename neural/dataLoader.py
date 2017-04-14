@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-import _pickle as cPickle
+import pickle
 import gzip
-import numpy as np 
+import numpy as np
 
 
 def load_data():
-    f = gzip.open('./dataSource/mnist.pkl.gz', 'rb')
-    trainning_data, validation_data, test_data = cPickle.load(f)
-    f.close()
+
+    with gzip.open('./dataSource/mnist.pkl.gz', 'rb') as f:
+        trainning_data, validation_data, test_data = pickle.load(f, encoding='latin1')
 
     return (trainning_data, validation_data, test_data)
 
