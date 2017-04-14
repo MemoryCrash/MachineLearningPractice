@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-# -*-coding:UTF-8 -*-
 import random
 import numpy as np
 
 class Network(object):
-    self.num_layers = len(sizes)
-    self.sizes = sizes
-    self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
-    self.weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
+    def __ini__(self, sizes):
+        self.num_layers = len(sizes)
+        self.sizes = sizes
+        self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
+        self.weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
 
     def feedforward(self, a):
         for b, w in zip(self.biases, self.weights):
