@@ -3,6 +3,7 @@
 
 import neuralTrain
 import dataLoader
+import img2mat
 
 
 def runNeural():
@@ -10,6 +11,10 @@ def runNeural():
     net = neuralTrain.Network([784, 30, 10])
     net.SGD(training_data, 30, 10, 3.0, test_data=test_data)
 
+    grayData = img2mat.rgb2gray('2.png')
+    return net.testOutput(grayData)
+
 
 if __name__ == '__main__':
-    runNeural()
+    number = runNeural()
+    print(number)

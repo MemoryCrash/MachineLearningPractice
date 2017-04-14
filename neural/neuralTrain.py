@@ -85,6 +85,11 @@ class Network(object):
 
         return (output_activations - y)
 
+    def testOutput(self, test_data):
+
+        test_results = np.argmax(self.feedforward(test_data))
+        return test_results
+
 
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
