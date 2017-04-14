@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*-coding:UTF-8 -*-
+
 import pickle
 import gzip
 import numpy as np
