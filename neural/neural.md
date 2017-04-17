@@ -112,6 +112,28 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 ![pi](http://latex.codecogs.com/png.latex?\sigma_{j}^{l}=\sum_{k}\frac{\partial&space;C}{\partial&space;z_{k}^{l&plus;1}}\frac{\partial&space;z_{k}^{l&plus;1}}{\partial&space;z_{j}^{l}})
 
+结合
+
+![pi](http://latex.codecogs.com/png.latex?z_{k}^{l&plus;1}=\sum_{j}w_{kj}^{l&plus;1}a_{j}^{l}&plus;b_{k}^{l&plus;1}=\sum_{j}w_{kj}^{l&plus;1}\sigma&space;(z_{j}^{l})&plus;b_{k}^{l&plus;1})
+
+可以得到开头的公式
+
+#### 权值的梯度
+
+![pi](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;w_{jk}^{l}}=a_{k}^{l-1}\delta&space;_{j}^{l})
+
+依据链式求导法则
+
+![pi](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;w_{jk}^{l}}=\frac{\partial&space;C}{\partial&space;z_{j}^{l}}\frac{\partial&space;z_{j}^{l}}{\partial&space;w_{jk}^{l}}=\delta&space;_{j}^{l}\frac{\partial&space;(w_{jk}^{l}a_{k}^{l-1}&plus;b_{j}^{l})}{\partial&space;w_{jk}^{l}}=a_{k}^{l-1}\delta&space;_{j}^{l})
+
+#### 偏移的梯度
+
+![pi](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;b_{l}^{j}}=\delta&space;_{j}^{l})
+
+依据链式求导法则
+
+![pi](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;b_{l}^{j}}=\frac{\partial&space;C}{\partial&space;z_{j}^{l}\frac{z_{j}^{l}}{\partial&space;b_{j}^{l}}}=\delta&space;_{j}^{l}\frac{\partial&space;(w_{jk}^{l}a_{k}^{l-1})}{\partial&space;b_{l}^{j}}=\delta&space;_{j}^{l})
+
 ### 算法描述
 
 ## 参考数据  
