@@ -92,6 +92,25 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 ![pi](http://latex.codecogs.com/png.latex?\delta&space;_{j}^{l}=\frac{\partial&space;C}{\partial&space;z_{j}^{l}})   
 
+#### 输出层误差
+
+![pi](http://latex.codecogs.com/png.latex?\delta&space;_{L}^{l}=\frac{\partial&space;C}{\partial&space;a_{j}^{L}}{\sigma&space;}'(z_{j}^{L}))
+
+注意这里的乘的关系是对应元素相乘。这个等式是通过链式求导法则得到的。
+
+![pi](http://latex.codecogs.com/png.latex?\delta&space;_{L}^{l}=\frac{\partial&space;C}{\partial&space;a_{j}^{L}}\frac{\partial&space;a_{j}^{L}}{\partial&space;z_{j}^{L}})
+
+其中
+
+![pi](http://latex.codecogs.com/png.latex?{\sigma&space;}'(z_{j}^{L})=\frac{\partial&space;a_{j}^{L}}{\partial&space;z_{j}^{L}})
+
+#### 非输出层误差
+
+![pi](http://latex.codecogs.com/png.latex?\sigma_{l}=((w^{l&plus;1})^{T}\delta&space;^{l&plus;1})\bigodot&space;{\sigma&space;}'(z^{l}))
+
+首先我们是希望这个误差出现传递的特点的。所以这个公式，我们可以通过这样的链式求导：
+
+![pi](http://latex.codecogs.com/png.latex?\sigma_{j}^{l}=\sum_{k}\frac{\partial&space;C}{\partial&space;z_{k}^{l&plus;1}}\frac{\partial&space;z_{k}^{l&plus;1}}{\partial&space;z_{j}^{l}})
 
 ### 算法描述
 
