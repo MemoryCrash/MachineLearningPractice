@@ -136,6 +136,23 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 ### 算法描述
 
+1. 输入训练样本集合
+
+2. 对于每个训练样本x：设置对应的输入激活![pi](http://latex.codecogs.com/png.latex?a^{x,1})，执行以下步骤：
+
+* 向前：对于每一层l=2，3，4....，L计算![pi](http://latex.codecogs.com/png.latex?z^{x,l}=w^{l}a^{x,l-1}&plus;b^{l})和![pi](http://latex.codecogs.com/png.latex?a^{x,l}=\sigma&space;(z^{x,l}))
+
+* 输出层误差![pi](http://latex.codecogs.com/png.latex?\delta&space;^{x,L}):计算向量![pi](http://latex.codecogs.com/png.latex?\delta&space;^{x,L}=\triangledown&space;_{a}C_{x}\odot&space;{\sigma&space;}'(z^{x,L}))
+
+* 后向传播误差：对于每一层l=L-1,L-2.....计算![pi](http://latex.codecogs.com/png.latex?\delta&space;^{x,L}=((w^{l&plus;1}^{T})\delta&space;^{x,l&plus;1})\odot&space;{\sigma&space;}'(z^{x,L}))   
+
+3. 梯度下降：对于每一层l=L-1,L-2,.....,按照规则更新权值和偏移：
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralGraW.png"/>
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralGraB.png"/>
+
+
 ## 参考数据  
 [1]《机器学习》 周志华 著 
 
