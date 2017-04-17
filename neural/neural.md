@@ -47,6 +47,24 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 ### 代价函数
 
+按照我们训练一个模型的一般思路，我们需要找到一个代价函数，这样可以得到一个优化的目标函数。这里我们使用的代价函数是：
+
+![pi](http://latex.codecogs.com/png.latex?C(w,b)=\frac{1}{2n}\sum_{x}\left&space;\|&space;y&space;(x)-a&space;\right&space;\|^{2})   
+
+这里y(x)代表训练集x期望的输出，a代表x经过模型得到的输出，n代表训练样本的数量，w代表的是权值，b代表的是偏移，这里的1/2的作用是为了后续对代价函数求导方便。
+
+![pi](http://latex.codecogs.com/png.latex?a_{j}^{l}=\sigma&space;(\sum_{k}w_{jk}^{l}a_{k}^{k-1}&space;&plus;&space;b_{j}^{l}))  
+
+![pi](http://latex.codecogs.com/png.latex?z_{j}^{l}=\sum_{k}w_{jk}^{l}a_{k}^{k-1}&space;&plus;&space;b_{j}^{l}) 
+
+对应可以写成向量的形式
+
+![pi](http://latex.codecogs.com/png.latex?a^{l}=\sigma&space;(w^{l}a^{l-1}&plus;b^{l}))
+
+![pi](http://latex.codecogs.com/png.latex?z^{l}=w^{l}a^{l-1}&plus;b^{l})
+
+得到了这些后，接下来我们需要的就是求得w和b，但是想通过直接求解出w和b是很困难的。后面采用的是使用梯度下降的方式来不断逼近最优解。
+
 ### 梯度下降
 
 ### BP 反向传播算法
