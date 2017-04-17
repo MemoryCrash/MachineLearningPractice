@@ -27,6 +27,11 @@
 
 ![pi](http://latex.codecogs.com/png.latex?\sum_{j}w_{j}x_{j}&plus;b)  
 
+## 神经网络
+
+我们建立的一个神经元模型。这个对这个模型比较好的直接应用就是[感知机](https://github.com/MemoryCrash/MachineLearningPractice/blob/master/perceptron/perceptron.md)了但是通过感知机的笔记可以了解到，感知机能做的事情是非常有限的。通过组合多个神经元去构建一个多层的神经网络我们可以处理更加复杂的分类或者判断问题。
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralNetwork.png" width=40% height=40%/>
 
 ## 参考数据  
 [1]《机器学习》 周志华 著 
