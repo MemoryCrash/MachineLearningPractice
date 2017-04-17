@@ -73,9 +73,9 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 如果我们需要从上图中的一个任意点到达这个谷底应该如何做呢？一种考虑就是通过计算偏导数来获得运动的方向。再通过移动一小步，然后再去计算偏导数获得梯度再延着梯度移动一小步。就这样一步步的我们逐渐会逼近上图中的谷底，对应到函数也就是最优解。表达为数学公式为：
 
-![pi](http://latex.codecogs.com/png.latex?w_{k}&space;=&space;w_{k}-\eta&space;\frac{\partial&space;C}{\partial&space;w_{k}})   
+![pi](http://latex.codecogs.com/png.latex?w_{k}=w_{k}-\eta&space;\frac{\partial&space;C}{\partial&space;w_{k}})
 
-![pi](http://latex.codecogs.com/png.latex?b_{l}&space;=&space;b_{l}-\eta&space;\frac{\partial&space;C}{\partial&space;b_{l}})    
+![pi](http://latex.codecogs.com/png.latex?b_{l}=b_{l}-\eta&space;\frac{\partial&space;C}{\partial&space;b_{l}}) 
 
 这里的![pi](http://latex.codecogs.com/png.latex?\eta)表示的学习的速率，它越大移动的步子就越大，但是如果过大可能跨过最佳点，如果过小会造成移动的过慢学习的过程也将变的非常缓慢。
 
