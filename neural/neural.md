@@ -33,9 +33,13 @@
 
 <img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralNetwork.png" width=40% height=40%/>
 
+这里我们构建了一个具有三层结构的神经网络，从左到右分别是输入层、隐藏层、输出层。从最开始input进入神经元的数据都会经过权重和偏移的影响，将值从左到右的传递下去直到最后output输出。也就是每一个输出的数据的变动经过这一系例的变化最后都将或多或少的影响到最后的输出结果。现在我们将权值和阀值标注到神经网络中去。
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralWB.png" width=50% height=50%>
+
+
 
 ## 参考数据  
-
 [1]《机器学习》 周志华 著 
 
 [2]《斯坦福大学公开课：机器学习课程 cs229 吴恩达 
