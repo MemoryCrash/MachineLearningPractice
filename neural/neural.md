@@ -73,11 +73,14 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 如果我们需要从上图中的一个任意点到达这个谷底应该如何做呢？一种考虑就是通过计算偏导数来获得运动的方向。再通过移动一小步，然后再去计算偏导数获得梯度再延着梯度移动一小步。就这样一步步的我们逐渐会逼近上图中的谷底，对应到函数也就是最优解。表达为数学公式为：
 
-![pi](http://latex.codecogs.com/png.latex?w_{k}=w_{k}-\eta&space;\frac{\partial&space;C}{\partial&space;w_{k}})
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralGraW.png"/>
 
-![pi](http://latex.codecogs.com/png.latex?b_{l}=b_{l}-\eta&space;\frac{\partial&space;C}{\partial&space;b_{l}}) 
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralGraB.png"/>
 
-这里的![pi](http://latex.codecogs.com/png.latex?\eta)表示的学习的速率，它越大移动的步子就越大，但是如果过大可能跨过最佳点，如果过小会造成移动的过慢学习的过程也将变的非常缓慢。
+这里的![pi](http://latex.codecogs.com/png.latex?\eta)表示的学习的速率，它越大移动的步子就越大，但是如果过大可能跨过最佳点，如果过小会造成移动的过慢学习的过程也将变的非常缓慢。对于我们的公式在进行梯度下降涉及到一个问题，具体的梯度下降的多少需要针对每一个训练的样本来计算一次梯度下降的多少然后求平均得到真正下降的值。为什么会这样呢？因为我们家谁的代价函数就是针对每个训练样本的的期望值和训练过程输出值之间的差并进行平均的处理。
+
+设想如果训练的样本非常的大，那同样会极大的影响模型学习的时间。这个时候就带出了**随机梯度下降**算法，它和梯度下降的区别就是，随机梯度下降算法每次执行下降并不需要输入所有的训练样本。随机梯度下降算法会先随机选择固定少的多训练样本来执行梯度下降。这样整体的学习的时间就减少了很多，同时随机梯度算法依然会找到优化的最佳点。
+
 
 ### BP 反向传播算法
 
