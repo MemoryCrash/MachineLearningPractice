@@ -37,9 +37,13 @@
 
 <img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralWB.png" width=50% height=50%>
 
-b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http://latex.codecogs.com/png.latex?b_{2}^{2})代表第2层网络第2个神经元的偏移，w3(12)在文中写成![pi](http://latex.codecogs.com/png.latex?w_{3}^{12})表示第N-1层j个神经元到**第N层**的第i个神经元的权值，落这里就是第2层的第2个神经元到**第3层**的第1个神经元的权值。看到权值的标示方式可能会觉得很别扭，觉得下标的12应该从左到右进行标示才更合理，但是实际这样表示是为了后面进行计算矩阵运算方便。现在我们就是为了得到某种分类模型需要通过大量的训练数据得到权值和偏移的值。
+b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http://latex.codecogs.com/png.latex?b_{2}^{2})代表第2层网络第2个神经元的偏移，w3(12)在文中写成![pi](http://latex.codecogs.com/png.latex?w_{12}^{3})表示第N-1层j个神经元到**第N层**的第i个神经元的权值，落这里就是第2层的第2个神经元到**第3层**的第1个神经元的权值。看到权值的标示方式可能会觉得很别扭，觉得下标的12应该从左到右进行标示才更合理，但是实际这样表示是为了后面进行计算矩阵运算方便。现在我们就是为了得到某种分类模型需要通过大量的训练数据得到权值和偏移的值。
 
 ## BP 反向传播算法
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/neuralZA.png" width=50% height=50%/>
+
+首先准备下进行算法解释的图像，可以看出来和上一节的图像的差别是多了![pi](http://latex.codecogs.com/png.latex?z_{3}^{2})和![pi](http://latex.codecogs.com/png.latex?a_{1}^{3})。其中z表示神经元接受到的信息包括带有权值的输入信号和偏移，a表示激活函数sigmoid根据z计算出来的激活值。
 
 ## 参考数据  
 [1]《机器学习》 周志华 著 
