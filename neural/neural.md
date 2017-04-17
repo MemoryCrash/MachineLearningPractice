@@ -84,6 +84,15 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 ### BP 反向传播算法
 
+现在我们需要处理的问题进一步变成了如何求得在代价函数C中的w和b的偏导数。首先我们可以了解到求这个两个的偏导数的是可以得到当w或者b发生变化时代价函数改变的速度有多快。这里我们介绍[反向传播算法](http://www.tensorfly.cn/home/?p=76)来处理w和b的偏导数计算问题。
+
+这里我们需要预先设定一些假设，其一是各个训练样本在带入代价函数后对w和b求导后对应每个训练样本的求导结果相加并求平均可以得到整个代价函数的梯度，其二可以将代价函数当成是激活层a的输出的一个函数。
+
+在进行反向传播是我们先设定一个中间变量![pi](http://latex.codecogs.com/png.latex?\delta&space;_{j}^{l})它表示网络中第l层第j个神经元的误差。注意这里的误差只是一种表述，并不需要和一般的误差含义等同。反向传播可以通过![pi](http://latex.codecogs.com/png.latex?\delta&space;_{j}^{l})得到w和b的导数。
+
+![pi](http://latex.codecogs.com/png.latex?\delta&space;_{j}^{l}=\frac{\partial&space;C}{\partial&space;z_{j}^{l}})   
+
+
 ### 算法描述
 
 ## 参考数据  
