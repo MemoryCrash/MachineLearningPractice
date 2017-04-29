@@ -10,7 +10,7 @@ import theano.tensor as T
 from theano.tensor.nnet import conv
 from theano.tensor.nnet import softmax
 from theano.tensor import shared_randomstreams
-from theano.tensor.signal import downsample
+from theano.tensor.signal import pool
 
 
 def linear(z):
@@ -66,19 +66,19 @@ class Network(object):
         self.output = self.layers[-1].output
         self.output_dropout = self.layers[-1].output_dropout
 
-    def SGD(self, trainning_data, epochs, mini_batch_size, eta, validation_data, test_data, test_data, lmbda=0.0):
+    def SGD(self, trainning_data, epochs, mini_batch_size, eta, validation_data, test_data, lmbda=0.0):
         trainning_x, trainning_y = trainning_data
         validation_x, validation_y = validation_data
         test_x, test_y = test_data
 
-        num_training_batches = size(trainning_data) / mini_batch_size
-        num_validation_batches = size(validation_data) / mini_batch_size
-        num_test_batches = size(test_data) / mini_batch_size
+        num_training_batches = int(size(trainning_data) / mini_batch_size)
+        num_validation_batches = int(size(validation_data) / mini_batch_size)
+        num_test_batches = int(size(test_data) / mini_batch_size)
 
-        l2_norm_squared = sum([(layers.w**2).sum() for layer in self.layers])
+        l2_norm_squared = sum([(layer.w**2).sum() for layer in self.layers])
         cost = self.layers[-1].cost(self) + 0.5 * lmbda * l2_norm_squared / num_training_batches
         grads = T.grad(cost, self.params)
-        updates = [(param, param - eta * grad) for param, grad in zip(self.param, grads)]
+        updates = [(param, param - eta * grad) for param, grad in zip(self.params, grads)]
 
         i = T.lscalar()
         train_mb = theano.function(
@@ -116,6 +116,11 @@ class Network(object):
                     print("Training mini-batch number{0}".format(iteration))
                 cost_ij = train_mb(minibatch_index)
                 if(iteration + 1) % num_training_batches == 0:
+
+                    for j in range(num_validation_batches):
+                        print(validate_mb_accuracy[j])
+
+
                     validation_accuracy = np.mean([validate_mb_accuracy[j] for j in range(num_validation_batches)])
                     print("Epoch{0}: validation accuracy{1:.2%}".format(epoch, validation_accuracy))
                     if validation_accuracy >= best_validation_accuracy:
@@ -154,7 +159,7 @@ class ConvPoolLayer(object):
         self.inpt = inpt.reshape(self.image_shape)
         conv_out = conv.conv2d(
             input = self.inpt, filters=self.w, filter_shape=self.filter_shape, image_shape=self.image_shape)
-        pooled_out = downsample.max_pool_2d(input=conv_out, ds=self.poolsize, ignore_border=True)
+        pooled_out = pool.pool_2d(input=conv_out, ws=self.poolsize, ignore_border=True)
         self.output = self.activation_fn(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))
         self.output_dropout = self.output
 
@@ -182,7 +187,7 @@ class FullyConnectedLayer(object):
     def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
         self.inpt = inpt.reshape((mini_batch_size, self.n_in))
         self.output = self.activation_fn((1 - self.p_dropout) * T.dot(self.inpt, self.w) + self.b)
-        self.y_out = T.argmax(self.outputm, axis=1)
+        self.y_out = T.argmax(self.output, axis=1)
         self.inpt_dropout = dropout_layer(inpt_dropout.reshape((mini_batch_size, self.n_in)), self.p_dropout)
         self.output_dropout = self.activation_fn(T.dot(self.inpt_dropout, self.w) + self.b)
 
@@ -191,7 +196,7 @@ class FullyConnectedLayer(object):
         return T.mean(T.eq(y, self.y_out))
 
 
-def SoftmaxLayer(object):
+class SoftmaxLayer(object):
 
     def __init__(self, n_in, n_out, p_dropout=0.0):
         self.n_in = n_in
@@ -204,6 +209,7 @@ def SoftmaxLayer(object):
         self.b = theano.shared(
             np.zeros((n_out,), dtype=theano.config.floatX),
             name='b', borrow=True)
+        self.params = [self.w, self.b]
 
     def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
         self.inpt = inpt.reshape((mini_batch_size, self.n_in))
@@ -227,10 +233,27 @@ def size(data):
 
 def dropout_layer(layer, p_dropout):
     # randomstate是伪随机数的种子生成小于999999的数
-    srng = shared_randomstreams.1(
-        np.random.RandomState(0).randint(999999))
+    srng = shared_randomstreams.RandomStreams(np.random.RandomState(0).randint(999999))
     # binomial 是二项式分布（多次抛硬币的结果）
     mask = srng.binomial(n=1, p=1-p_dropout, size=layer.shape)
     # cast是进行数据类型转换
     return layer * T.cast(mask, theano.config.floatX)
+
+
+if __name__ == '__main__':
+
+    trainning_data, validation_data, test_data = load_data_shared()
+    mini_batch_size = 10
+
+    net = Network([
+        ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+            filter_shape=(20, 1, 5, 5),
+            poolsize=(2, 2)),
+            FullyConnectedLayer(n_in=20*12*12, n_out=100),
+        SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
+
+    net.SGD(trainning_data, 60, mini_batch_size, 0.1, validation_data, test_data)
+
+
+
 
