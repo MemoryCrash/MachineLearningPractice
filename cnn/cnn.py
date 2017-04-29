@@ -40,6 +40,7 @@ else:
 
 
 def load_data_shared(filename="../neural/dataSource/mnist.pkl.gz"):
+    # borrow=Ture表示引用
     with gzip.open(filename, 'rb') as f:
         trainning_data, validation_data, test_data = pickle.load(f, encoding='latin1')
         def shared(data):
@@ -59,7 +60,7 @@ class Network(object):
         self.y = T.ivector("y")
         init_layer = self.layers[0]
         init_layer.set_inpt(self.x, self.x, self.mini_batch_size)
-        for j in xrange(1, len(self.layers)):
+        for j in range(1, len(self.layers)):
             prev_layer, layer = self.layers[j-1], self.layers[j]
             layer.set_inpt(prev_layer.output, prev_layer.output_dropout, self.mini_batch_size)
         self.output = self.layers[-1].output
@@ -108,21 +109,21 @@ class Network(object):
             })
 
         best_validation_accuracy = 0.0
-        for epoch in xrange(epochs):
-            for minibatch_index in xrange(num_training_batches):
+        for epoch in range(epochs):
+            for minibatch_index in range(num_training_batches):
                 iteration = num_training_batches * epoch + minibatch_index
                 if iteration % 1000 == 0:
                     print("Training mini-batch number{0}".format(iteration))
                 cost_ij = train_mb(minibatch_index)
                 if(iteration + 1) % num_training_batches == 0:
-                    validation_accuracy = np.mean([validate_mb_accuracy[j] for j in xrange(num_validation_batches)])
+                    validation_accuracy = np.mean([validate_mb_accuracy[j] for j in range(num_validation_batches)])
                     print("Epoch{0}: validation accuracy{1:.2%}".format(epoch, validation_accuracy))
                     if validation_accuracy >= best_validation_accuracy:
                         print("This is the best validation accuracy to date.")
                         best_validation_accuracy = validation_accuracy
                         best_iteration = iteration
                         if test_data:
-                            test_accuracy = np.mean([test_mb_accuracy(j) for j in xrange(num_test_batches)])
+                            test_accuracy = np.mean([test_mb_accuracy(j) for j in range(num_test_batches)])
                             print("The corresponding test accuracy is {0:.2%}".format(test_accuracy))
         print("Finished training network.")
         print("Best validation accuracy of {0:.2%} obtained at iteration{1}".format(best_validation_accuracy, best_iteration))
@@ -225,8 +226,11 @@ def size(data):
 
 
 def dropout_layer(layer, p_dropout):
-    srng = shared_randomstreams.RandomStreams(
+    # randomstate是伪随机数的种子生成小于999999的数
+    srng = shared_randomstreams.1(
         np.random.RandomState(0).randint(999999))
+    # binomial 是二项式分布（多次抛硬币的结果）
     mask = srng.binomial(n=1, p=1-p_dropout, size=layer.shape)
+    # cast是进行数据类型转换
     return layer * T.cast(mask, theano.config.floatX)
 
