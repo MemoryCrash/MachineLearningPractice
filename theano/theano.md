@@ -12,7 +12,7 @@ theano的变量类型包括
 * **complex**: cscalar, cvector, cmatrix, crow, ccol, ctensor3, ctensor4, ctensor5
 
 这里scalar代表标量，dscalar代表是double类型的标量，对应matrix是矩阵。
-~~~python
+~~~ python
 #导入theano
 import numpy
 import theano.tensor as T
@@ -25,3 +25,34 @@ f = function([x, y], z)
 在上面的代码中我们在theano中定义了'x'和'y'的变量。这里的'x'和'y'是可以被theano感知到的符号。接着我们定义了一个运算z=x+y，这里需要注意这个运算也
 只是一个符号表示一种运算规则，这个时候的z中并不是就等于x+y。后面我们使用function定一个函数，它使用[x,y]表示输入的变量，用z表示因变量。当我们调用f
 的时候返回的就是x和y相加以后的值，从这里看出来这个些运算和我们平时的python代码还是不一样的。
+
+### theano共享变量
+~~~ python
+from theano import shared
+state = shared(0)
+inc = T.iscalar('inc')
+accumulator = function([inc], state, updates=[(state,state+inc)])
+~~~
+使用shared(0)会返回一个初始值为0的共享变量，共享变量可以在多个函数直接共享。这里的function带有一个updates参数，作用每次调用function后将state+inc
+更新到state中去。可以通过get_value()和set_value()来获取和设置共享变量。
+
+在function中常常还有一个参数叫givens，可能是这样使用givens={x:i}这样就是在运行中使用i来替换x。
+
+### theano随机变量
+theano获取随机变量的方式是通过引入shared_randomstreams，设定随机数的种子以及选择随机数的分布来生成随机数。
+~~~ python
+from theano.tensor.shared_randomstreams import RandomStreams
+from theano import function
+srng = RandomSteams(seed=234)
+rv_n = srng.normal((2,2))
+f = function([],rv_n)
+~~~
+
+### dimshuffle
+dimshuffle用来调整张量的维度，因为我们在计算中有时候需要让两个张量维度能对应上才能进一步的进行加法减法等计算。
+~~~ python
+a.dimshuffle('x',0)
+~~~
+这里'x'表示增加的维度，0表示原来张量的0维。如果a是N那么经过dimshuffle计算后就是1*N.
+
+
