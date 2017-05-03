@@ -55,4 +55,18 @@ a.dimshuffle('x',0)
 ~~~
 这里'x'表示增加的维度，0表示原来张量的0维。如果a是N那么经过dimshuffle计算后就是1*N.
 
+### theano 图结构
+在theano维护的变量和计算中都会整理成计算图然后theano会进行优化，之后进行计算。
 
+~~~ python
+import theano.tensor as T
+
+x = T.dmatrix('x')
+y = T.dmatrix('y')
+z = x + y
+~~~
+对应计算图如下
+
+<img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/theanoapply.png" width=30% height=30%/>
+
+这里的op引用的是我们定义的加法操作，输入数据引用的是x和y，x和y进一步引用了matrix类型，输出的数据z和apply是互相依赖的关系。这里的apply可以理解为一次具体的算法的实施或者是function函数的一次调用。
