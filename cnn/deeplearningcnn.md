@@ -28,7 +28,7 @@
 
 <img src="https://github.com/MemoryCrash/MachineLearningPractice/blob/master/image/relu.png" width=50% height=50%>
 
-### 代价函数
+### 代价函数 sigmoid+交叉熵
 在先前使用sigmod作为激活函数的神经网络中我们使用代价函数的模式一般是平方差的形式。代价函数的形式是会依赖对激活函数求导，我们知道求导对应到曲线可以理解
 为曲线在某点的变化率。以下通过一个一个输入一个输出的单个神经元模型来进行解释。以下输入假设x是1，期待y输出为0可以看出求导的结果确实依赖了对sigmod的求
 导，这样就会出现上面讨论的梯度下降缓慢的问题。
@@ -45,6 +45,22 @@
 
 可以对w和b分别求导发现结果是和激活函数的导数没有关系的。
 
+### softmax+log-likelihood
+除了交叉熵以外还可以通过softmax的方式来解决学习速度衰减的问题。我们仅将输出层从普通的sigmod作为激活函数的层替换为softmax层。softmax输出层同样
+接受z=wx+b然后通过以下公式来计算输出结果
+
+![pi](http://latex.codecogs.com/png.latex?a_{j}^{L}=\frac{e^{z_{j}^{L}}}{\sum_{k}e^{z_{k}^{L}}})
+
+可以看出来这里得到的是某个值占总体的一个比例。配合softmax我们的代价函数需要替换成log-likelihood
+
+![pi](http://latex.codecogs.com/png.latex?C\equiv&space;-lna_{y}^{L})
+
+这里表示的是单个输入样本的代价，如果有多个样本的可以对他们的代价求均值，作为总的代价函数。通过代价函数对w和b求导得到公式
+
+![pi](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;b_{j}^{L}}=a_{j}^{L}-y_{j})
+
+![pi](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;w_{jk}^{L}}=a_{k}^{L-1}(a_{k}^{L}-y_{j}))
+
 ### 正则化
 
 一般有l1,l2,dropout的方式来对模型进行正则化，主要目的还是防止模型的过拟合，其中l2正则化方法是对所有的w进行如下处理并把这个部分添加到代价函数中去
@@ -58,5 +74,6 @@
 接下还有一种方式是dropout，可以理解为丢弃。处理的思想类似我们以前看的集成学习法。这dropout中会随机的丢弃一些神经元(非输入和输出层)，也就是我们每次迭
 代更新梯度只对模型中的部分神经元进行处理。在一个batch的样本训练并更新完w和b以后我们会重新再进行一次dropout。这样的感觉就像训练了多个子神经网络，最后
 将他们组合成一个大的神经元来进行使用。是不是和集成学习思想类似？
+
 
 
