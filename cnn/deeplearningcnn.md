@@ -33,14 +33,30 @@
 为曲线在某点的变化率。以下通过一个一个输入一个输出的单个神经元模型来进行解释。以下输入假设x是1，期待y输出为0可以看出求导的结果确实依赖了对sigmod的求
 导，这样就会出现上面讨论的梯度下降缓慢的问题。
 
-![p](http://latex.codecogs.com/gif.latex?C=\frac{(y-a)^{2}}{2})
+![p](http://latex.codecogs.com/png.latex?C=\frac{(y-a)^{2}}{2})
 
-![p](http://latex.codecogs.com/gif.latex?\frac{\partial&space;C}{\partial&space;w}=(a-y){\sigma&space;}'(z)x=a{\sigma&space;}'(z))
+![p](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;w}=(a-y){\sigma&space;}'(z)x=a{\sigma&space;}'(z))
 
-![p](http://latex.codecogs.com/gif.latex?\frac{\partial&space;C}{\partial&space;b}=(a-y){\sigma&space;}'(z)=a{\sigma&space;}'(z))
+![p](http://latex.codecogs.com/png.latex?\frac{\partial&space;C}{\partial&space;b}=(a-y){\sigma&space;}'(z)=a{\sigma&space;}'(z))
 
 通过使用交叉熵来作为代价函数：
 
-![pi](http://latex.codecogs.com/gif.latex?C=-\frac{1}{n}\sum_{x}[ylna&plus;(1-y)ln(1-a)])
+![pi](http://latex.codecogs.com/png.latex?C=-\frac{1}{n}\sum_{x}[ylna&plus;(1-y)ln(1-a)])
 
 可以对w和b分别求导发现结果是和激活函数的导数没有关系的。
+
+### 正则化
+
+一般有l1,l2,dropout的方式来对模型进行正则化，主要目的还是防止模型的过拟合，其中l2正则化方法是对所有的w进行如下处理并把这个部分添加到代价函数中去
+需要注意的是l2正则化只需包括w不需要包括b。
+
+![p](http://latex.codecogs.com/png.latex?C=-\frac{1}{n}\sum_{xj}[y_{j}lna_{j}^{L}&plus;(1-y_{j})ln(1-a_{j}^{L})]&plus;\frac{\lambda&space;}{2n}\sum_{w}w^{2})
+
+这样起到的作用使的优化这个代价函数，会更倾向于获取一个w并不是那么复杂的模型。一般直观的来看过拟合的模型都是在训练集中表现过于好的函数，而表现的过好的
+模型一般w都是比较复杂的。我们对于l1正则化不作解释。
+
+接下还有一种方式是dropout，可以理解为丢弃。处理的思想类似我们以前看的集成学习法。这dropout中会随机的丢弃一些神经元(非输入和输出层)，也就是我们每次迭
+代更新梯度只对模型中的部分神经元进行处理。在一个batch的样本训练并更新完w和b以后我们会重新再进行一次dropout。这样的感觉就像训练了多个子神经网络，最后
+将他们组合成一个大的神经元来进行使用。是不是和集成学习思想类似？
+
+
