@@ -110,7 +110,7 @@ b2(2)是因为画图时不方便表示公式的妥协在这文中写做![b](http
 
 首先我们是希望这个误差出现传递的特点的。所以这个公式，我们可以通过这样的链式求导：
 
-![pi](http://latex.codecogs.com/png.latex?\sigma_{j}^{l}=\sum_{k}\frac{\partial&space;C}{\partial&space;z_{k}^{l&plus;1}}\frac{\partial&space;z_{k}^{l&plus;1}}{\partial&space;z_{j}^{l}})
+![pi](http://latex.codecogs.com/png.latex?\delta_{j}^{l}=\sum_{k}\frac{\partial&space;C}{\partial&space;z_{k}^{l&plus;1}}\frac{\partial&space;z_{k}^{l&plus;1}}{\partial&space;z_{j}^{l}})
 
 结合
 
