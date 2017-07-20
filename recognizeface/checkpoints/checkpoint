@@ -1,0 +1,6 @@
+model_checkpoint_path: "face_cnn-11103"
+all_model_checkpoint_paths: "face_cnn-8000"
+all_model_checkpoint_paths: "face_cnn-9000"
+all_model_checkpoint_paths: "face_cnn-10000"
+all_model_checkpoint_paths: "face_cnn-11000"
+all_model_checkpoint_paths: "face_cnn-11103"
