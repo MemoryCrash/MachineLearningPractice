@@ -10,6 +10,7 @@ import tensorflow as tf
 import prettytensor as pt
 from datetime import timedelta
 
+from PIL import Image
 from getFace import print_image_progress
 from readTFRecord import read_and_decode, read_all_records
 from getFace import getSingleImage
@@ -128,19 +129,19 @@ def test_accuracy(session):
     coord.join(threads)
 
 def faceRec(session):
-    labelName = ['others','dailei']
-    face = getSingleImage()
-    face = tf.expand_dims(face, 0)
-    
-    feed_dict = {x: face}
+    print("Begin face Recognize...")
+    labelName = ['OTHERS','DAI LEI']
+    face_raw = getSingleImage()
+    #给np array 添加一个维度由[height, width, num_channels]
+    #变为[img_num, height, width, num_channels]
+    face = np.float32(face_raw) * (1. / 255) - 0.5
+    img = face[np.newaxis,:]
+    feed_dict = {x: img}
     cls_pred = session.run(y_pred_cls, feed_dict=feed_dict)
-    print(cls_pred)
-    print('Is {}'.format(labelName[cls_pred[0]]))
+    print('\n Is [{}]\n'.format(labelName[cls_pred[0]]))
 
-    cv2.nameWindow('Image')
-    cv2.imshow('Image', face)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    face_raw = Image.fromarray(face_raw)
+    face_raw.show()
 
 
 
@@ -171,6 +172,8 @@ with tf.Session() as sess:
 
     #1# optimize(sess)
 
-    test_accuracy(sess)
+    #2# test_accuracy(sess)
 
-    #3# faceRec(sess)
+    faceRec(sess)
+
+

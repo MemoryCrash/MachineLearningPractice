@@ -73,7 +73,6 @@ def getImage():
     print("\n- Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
 
 def getSingleImage():
-
     while True:
         #使用opencv打开电脑摄像头，设置参数为输入流(摄像头、视频文件)
         camera = cv2.VideoCapture(0)
@@ -95,7 +94,7 @@ def getSingleImage():
 
             face = img[x1:y1,x2:y2]
             face = cv2.resize(face, (FLAG.IMAGE_ROW, FLAG.IMAGE_COL))
-
+            print('Get Face Image')
             return face
 
 if __name__ == '__main__':
