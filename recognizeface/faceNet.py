@@ -130,15 +130,21 @@ def test_accuracy(session):
 
 def faceRec(session):
     print("Begin face Recognize...")
-    labelName = ['OTHERS','DAI LEI', 'HUANGQIN']
+    labelName = ['OTHERS','DAI LEI', 'HUANG QIN']
     face_raw = getSingleImage()
     #给np array 添加一个维度由[height, width, num_channels]
     #变为[img_num, height, width, num_channels]
     face = np.float32(face_raw) * (1. / 255) - 0.5
     img = face[np.newaxis,:]
     feed_dict = {x: img}
-    cls_pred = session.run(y_pred_cls, feed_dict=feed_dict)
-    print('\n Is [{}]\n'.format(labelName[cls_pred[0]]))
+    cls_pred,cls_percent = session.run([y_pred_cls, y_pred], feed_dict=feed_dict)
+
+    index_sort = np.argsort(-cls_percent[0])
+    print('        Rec Sort\n')
+    for index in index_sort:
+        print('    {}:{:.5f}'.format(labelName[index], cls_percent[0][index]))
+
+    print('\nRESULT [{}]\n'.format(labelName[cls_pred[0]]))
 
     face_raw = Image.fromarray(face_raw)
     face_raw.show()
