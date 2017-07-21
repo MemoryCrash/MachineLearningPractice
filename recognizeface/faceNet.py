@@ -130,7 +130,7 @@ def test_accuracy(session):
 
 def faceRec(session):
     print("Begin face Recognize...")
-    labelName = ['OTHERS','DAI LEI']
+    labelName = ['OTHERS','DAI LEI', 'HUANGQIN']
     face_raw = getSingleImage()
     #给np array 添加一个维度由[height, width, num_channels]
     #变为[img_num, height, width, num_channels]
