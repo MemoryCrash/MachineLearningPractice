@@ -1311,7 +1311,6 @@ class GameState:
         self.timefreeze = False
 
         # set number of enemies by types (basic, fast, power, armor) according to level
-        
         levels_enemies = (
             (18,2,0,0), (14,4,0,2), (14,4,0,2), (2,5,10,3), (8,5,5,2),
             (9,2,7,2), (7,4,6,3), (7,4,7,2), (6,4,7,3), (12,2,4,2),
@@ -1605,6 +1604,7 @@ class GameState:
                     if player.bonus != None and player.side == player.SIDE_PLAYER:
                         self.triggerBonus(bonus, player)
                         player.bonus = None
+                        reward += 3
                 elif player.state == player.STATE_DEAD:
                     self.superpowers = 0
                     player.lives -= 1
@@ -1633,13 +1633,15 @@ class GameState:
         if not self.game_over:
             if not castle.active:
                 self.gameOver()
+                terminal = True
+                reward += -5
 
         image_data = pygame.surfarray.array3d(pygame.display.get_surface())
         image_data = image_data[0:416][0:416]
 
         gtimer.update(time_passed)
         self.draw()
- 
+
         return image_data, reward, terminal
 
 
