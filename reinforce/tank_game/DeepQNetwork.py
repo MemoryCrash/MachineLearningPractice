@@ -111,6 +111,7 @@ class DeepQNetwork:
         self._build_net()
 
         self.sess = tf.Session()
+        self.saver = tf.train.Saver()
 
         # 输出 tensorboard 文件
         if output_graph:
@@ -119,7 +120,7 @@ class DeepQNetwork:
 
         self.sess.run(tf.global_variables_initializer())
         self.cost_his = []  # 记录所有 cost 变化, 用于最后 plot 出来观看
-
+        self.net_restore()
 
     def store_transition(self, s, a, r, s_):
 
@@ -199,3 +200,20 @@ class DeepQNetwork:
         plt.ylabel('Cost')
         plt.xlabel('training steps')
         plt.show()
+
+    def net_saver(self, step):
+        if step % 10000 == 0:
+            self.saver.save(self.sess, 'saved_networks_tank/' + 'tank-dqn', global_step = step)
+
+    def net_restore(self):
+        checkpoint = tf.train.get_checkpoint_state("saved_networks_tank")
+        if checkpoint and checkpoint.model_checkpoint_path:
+            self.saver.restore(self.sess, checkpoint.model_checkpoint_path)
+            print("Successfully loaded:", checkpoint.model_checkpoint_path)
+        else:
+            print("Could not find old network weights")
+
+
+
+
+

@@ -16,7 +16,7 @@ def env_reset(env):
 
 def run_tanks():
     step = 0
-    for episode in range(200):
+    for episode in range(2):
         observation = env_reset(env)
 
         while True:
@@ -27,6 +27,8 @@ def run_tanks():
 
             if(step > 200) and (step % 5 == 0):
                 RL.learn()
+
+            RL.net_saver(step)
 
             observation = observation_
 
