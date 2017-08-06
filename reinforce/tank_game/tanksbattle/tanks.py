@@ -1641,7 +1641,7 @@ class GameState:
 
         gtimer.update(time_passed)
         self.draw()
-
+        image_data = cv2.resize(image_data, (80, 80))
         return image_data, reward, terminal
 
 
