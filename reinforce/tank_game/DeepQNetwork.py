@@ -86,7 +86,7 @@ class DeepQNetwork:
         reward_decay=0.9,
         e_greedy=0.9,
         replace_target_iter=300,
-        memory_size=500,
+        memory_size=50000,
         batch_size=32,
         e_greedy_increment=None,
         output_graph=False,
@@ -105,7 +105,7 @@ class DeepQNetwork:
         # 记录学习次数 (用于判断是否更换 target_net 参数)
         self.learn_step_counter = 0
 
-        # 初始化全 0 记忆 [s, a, r, s_]
+        # 记忆 [s, a, r, s_]
         self.memory = deque()
         # 创建 [target_net, evaluate_net]
         self._build_net()
