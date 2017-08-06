@@ -16,7 +16,7 @@ def env_reset(env):
 
 def run_tanks():
     step = 0
-    for episode in range(10):
+    for episode in range(200):
         observation = env_reset(env)
 
         while True:
