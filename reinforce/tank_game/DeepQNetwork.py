@@ -115,7 +115,7 @@ class DeepQNetwork:
         # 输出 tensorboard 文件
         if output_graph:
             # $ tensorboard --logdir=logs
-            tf.summary.FileWriter("logs/", self.sess.graph)
+            tf.summary.FileWriter("logs_tank/", self.sess.graph)
 
         self.sess.run(tf.global_variables_initializer())
         self.cost_his = []  # 记录所有 cost 变化, 用于最后 plot 出来观看
