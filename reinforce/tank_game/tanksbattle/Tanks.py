@@ -1421,8 +1421,6 @@ class GameState:
 
     def gameOver(self):
         """ End game and return to menu """
-
-        print("Game Over")
         self.game_over = True
         self.running = False
         self.showMenu()
