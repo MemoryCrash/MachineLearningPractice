@@ -23,7 +23,7 @@ class DeepQNetwork:
 
         # 卷积层1
         with tf.variable_scope('conv1'):
-            wc1 = tf.get_variable('w_c1', [8, 8, 3, 32], initializer=w_initializer, collections=c_names)
+            wc1 = tf.get_variable('w_c1', [8, 8, 4, 32], initializer=w_initializer, collections=c_names)
             bc1 = tf.get_variable('b_c1', [32], initializer=b_initializer, collections=c_names)
             h_conv1 = tf.nn.relu(conv2d(self.s, wc1, 4) + bc1)
             h_pool1 = max_pool_2x2(h_conv1)
@@ -58,7 +58,7 @@ class DeepQNetwork:
 
     def _build_net(self):
         # -------------- 创建 eval 神经网络, 及时提升参数 --------------
-        self.s = tf.placeholder(tf.float32, [None, self.image_size, self.image_size, 3], name='s')  # 用来接收 observation
+        self.s = tf.placeholder(tf.float32, [None, self.image_size, self.image_size, 4], name='s')  # 用来接收 observation
         self.q_target = tf.placeholder(tf.float32, [None, self.n_actions], name='Q_target') # 用来接收 q_target 的值, 这个之后会通过计算得到
         with tf.variable_scope('eval_net'):
             # c_names(collections_names) 是在更新 target_net 参数时会用到
@@ -71,7 +71,7 @@ class DeepQNetwork:
             self._train_op = tf.train.RMSPropOptimizer(self.lr).minimize(self.loss)
 
         # ---------------- 创建 target 神经网络, 提供 target Q ---------------------
-        self.s_ = tf.placeholder(tf.float32, [None, self.image_size, self.image_size, 3], name='s_')    # 接收下个 observation
+        self.s_ = tf.placeholder(tf.float32, [None, self.image_size, self.image_size, 4], name='s_')    # 接收下个 observation
         with tf.variable_scope('target_net'):
             # c_names(collections_names) 是在更新 target_net 参数时会用到
             c_names = ['target_net_params', tf.GraphKeys.GLOBAL_VARIABLES]
@@ -86,7 +86,7 @@ class DeepQNetwork:
         reward_decay=0.9,
         e_greedy=0.9,
         replace_target_iter=300,
-        memory_size=50000,
+        memory_size=10000,
         batch_size=32,
         e_greedy_increment=None,
         output_graph=False,
@@ -131,17 +131,18 @@ class DeepQNetwork:
 
 
 
-    def choose_action(self, observation):
+    def choose_action(self, observation, step, OBSERVE):
         # 统一 observation 的 shape (1, size_of_observation)
         observation = observation[np.newaxis, :]
         action = np.zeros(self.n_actions)
 
-        if np.random.uniform() < self.epsilon:
+        if np.random.uniform() < self.epsilon and step > OBSERVE:
             # 让 eval_net 神经网络生成所有 action 的值, 并选择值最大的 action
             actions_value = self.sess.run(self.q_eval, feed_dict={self.s: observation})
             action[np.argmax(actions_value)]=1
         else:
             action[np.random.randint(0, self.n_actions)] = 1   # 随机选择
+            #print('random choice:{}'.format(step))
 
         return action
 

@@ -1561,9 +1561,9 @@ class GameState:
         self.nextLevel()
 
     def frame_step(self, input_actions):
-        pygame.event.pump()
         time_passed = self.clock.tick(50)
 
+        pygame.event.pump()
         terminal = False
         reward = 0.1
 
@@ -1633,13 +1633,14 @@ class GameState:
                 self.gameOver()
                 terminal = True
                 reward += -5
+        self.draw()
 
         image_data = pygame.surfarray.array3d(pygame.display.get_surface())
         image_data = image_data[0:416][0:416]
+        image_data = cv2.resize(image_data, (80, 80))
 
         gtimer.update(time_passed)
-        self.draw()
-        image_data = cv2.resize(image_data, (80, 80))
+        
         return image_data, reward, terminal
 
 
