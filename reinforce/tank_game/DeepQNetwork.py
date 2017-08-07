@@ -105,7 +105,7 @@ class DeepQNetwork:
         # 记录学习次数 (用于判断是否更换 target_net 参数)
         self.learn_step_counter = 0
 
-        # 记忆 [s, a, r, s_]
+        # 记忆 [s, a, r, s_, t]
         self.memory = deque()
         # 创建 [target_net, evaluate_net]
         self._build_net()
@@ -122,10 +122,10 @@ class DeepQNetwork:
         self.cost_his = []  # 记录所有 cost 变化, 用于最后 plot 出来观看
         self.net_restore()
 
-    def store_transition(self, s, a, r, s_):
+    def store_transition(self, s, a, r, s_, t):
 
         # 记录一条 [s, a, r, s_] 记录
-        self.memory.append((s, a, r, s_))
+        self.memory.append((s, a, r, s_, t))
         if len(self.memory) > self.memory_size:
             self.memory.popleft()
 
@@ -156,7 +156,7 @@ class DeepQNetwork:
         # 检查是否替换 target_net 参数
         if self.learn_step_counter % self.replace_target_iter == 0:
             self._replace_target_params()
-            print('\ntarget_params_replaced\n')
+            #print('\ntarget_params_replaced\n')
 
         # 从 memory 中随机抽取 batch_size 这么多记忆
         batch_memory = random.sample(self.memory, self.batch_size)
@@ -175,19 +175,24 @@ class DeepQNetwork:
 
         q_target = q_eval.copy()
 
-        #for i in range(0, len(batch_memory))
-        #    q_target[i, batch_a[i]] = batch_r[i] + self.gamma * np.max(q_next[i], axis=1)
+        for i in range(0, len(batch_memory)):
+            if batch_memory[i][4]:
+                batch_r[i]
+            else:
+                q_target[i][np.argmax(batch_a[i])] \
+                = batch_r[i] + self.gamma * np.max(q_next[i])
 
-        eval_act_index = np.argmax(batch_a, axis=1)
-        reward = batch_r
-        batch_index = np.arange(self.batch_size, dtype=np.int32)
-        q_target[batch_index, eval_act_index] = reward + self.gamma * np.max(q_next, axis=1)
+        #eval_act_index = np.argmax(batch_a, axis=1)
+        #reward = batch_r
+        #batch_index = np.arange(self.batch_size, dtype=np.int32)
+        #q_target[batch_index, eval_act_index] = reward + self.gamma * np.max(q_next, axis=1)
 
 
         # 训练 eval_net
         _, self.cost = self.sess.run([self._train_op, self.loss],
                                      feed_dict={self.s: batch_s,
                                                 self.q_target: q_target})
+
         self.cost_his.append(self.cost) # 记录 cost 误差
 
         # 逐渐增加 epsilon, 降低行为的随机性
