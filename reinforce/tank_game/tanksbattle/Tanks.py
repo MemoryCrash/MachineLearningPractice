@@ -1565,7 +1565,7 @@ class GameState:
 
         pygame.event.pump()
         terminal = False
-        reward = 0.1
+        reward = 0.001
 
         if sum(input_actions) != 1:
             raise ValueError('Multiple input actions!')
@@ -1589,11 +1589,11 @@ class GameState:
         for enemy in enemies:
             if enemy.state == enemy.STATE_DEAD and not self.game_over and self.active:
                 enemies.remove(enemy)
-                reward += 1
+                reward += 10
                 if len(self.level.enemies_left) == 0 and len(enemies) == 0:
                     self.finishLevel()
                     terminal = True
-                    reward += 5
+                    reward += 100
             else:
                 enemy.update(time_passed)        
         if not self.game_over and self.active:
@@ -1602,17 +1602,17 @@ class GameState:
                     if player.bonus != None and player.side == player.SIDE_PLAYER:
                         self.triggerBonus(bonus, player)
                         player.bonus = None
-                        reward += 3
+                        reward += 30
                 elif player.state == player.STATE_DEAD:
                     self.superpowers = 0
                     player.lives -= 1
                     if player.lives > 0:
                         self.respawnPlayer(player)
-                        reward += -1
+                        reward += -10
                     else:
                         self.gameOver()
                         terminal = True
-                        reward += -5
+                        reward += -100
 
         for bullet in bullets:
             if bullet.state == bullet.STATE_REMOVED:
@@ -1632,7 +1632,7 @@ class GameState:
             if not castle.active:
                 self.gameOver()
                 terminal = True
-                reward += -5
+                reward += -100
         self.draw()
 
         image_data = pygame.surfarray.array3d(pygame.display.get_surface())

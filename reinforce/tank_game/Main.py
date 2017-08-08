@@ -31,9 +31,7 @@ def env_reset(env):
 
         x_t = cv2.cvtColor(x_t, cv2.COLOR_BGR2GRAY)
         ret, x_t = cv2.threshold(x_t,1,255,cv2.THRESH_BINARY)
-        s_t = np.stack((x_t, x_t, x_t, x_t), axis = 2)
-
-        return s_t
+        return np.stack((x_t, x_t, x_t, x_t), axis = 2)
 
 def next_observation(raw_observation_, observation):
     raw_observation_ = cv2.cvtColor(raw_observation_, cv2.COLOR_BGR2GRAY)
@@ -45,23 +43,27 @@ def next_observation(raw_observation_, observation):
 
 def run_tanks():
     step = 0
-    play_time = 150
+    play_time = 1000
 
     for episode in range(play_time):
         print_progress(episode, play_time, start_time)
         observation = env_reset(env)
+        episode_reward = 0
 
         while True:
+
             action = RL.choose_action(observation, step, OBSERVE)
 
             raw_observation_, reward, terminal = env.frame_step(action)
+            episode_reward += reward
+
             raw_observation_ = image_chg(raw_observation_)
             observation_ = next_observation(raw_observation_, observation)
 
             RL.store_transition(observation, action, reward, observation_, terminal)
 
             if step == OBSERVE:
-                print('\nMemory is enough begin to train\n')
+                print('\nMemory is enough begin to train')
 
             if(step > OBSERVE) and (step % 5 == 0):
                 RL.learn()
@@ -75,6 +77,8 @@ def run_tanks():
 
             step += 1
 
+        print('\n episode:{}  reward:{}'.format(episode, episode_reward))
+
 
 if __name__ == '__main__':
     start_time = time.time()
@@ -85,7 +89,7 @@ if __name__ == '__main__':
         reward_decay=0.9,
         e_greedy=0.9,
         replace_target_iter=200,
-        memory_size=200,
+        memory_size=10000,
         output_graph=True
         )
 
