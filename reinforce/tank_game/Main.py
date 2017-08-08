@@ -30,7 +30,6 @@ def env_reset(env):
         x_t = image_chg(x_t)
 
         x_t = cv2.cvtColor(x_t, cv2.COLOR_BGR2GRAY)
-        ret, x_t = cv2.threshold(x_t,1,255,cv2.THRESH_BINARY)
         return np.stack((x_t, x_t, x_t, x_t), axis = 2)
 
 def next_observation(raw_observation_, observation):
