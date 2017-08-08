@@ -12,7 +12,7 @@ from DeepQNetwork import DeepQNetwork, image_chg
 
 ACTIONS = 6
 IMAGE_SIZE = 80
-OBSERVE = 100
+OBSERVE = 10000
 
 def print_progress(episode, episode_max, start_time):
     current_time = time.time()
@@ -43,7 +43,7 @@ def next_observation(raw_observation_, observation):
 
 def run_tanks():
     step = 0
-    play_time = 10
+    play_time = 1000
 
     for episode in range(play_time):
         print_progress(episode, play_time, start_time)
@@ -88,8 +88,8 @@ if __name__ == '__main__':
         learning_rate=0.01,
         reward_decay=0.9,
         e_greedy=0.9,
-        replace_target_iter=200,
-        memory_size=100,
+        replace_target_iter=800,
+        memory_size=10000,
         output_graph=True
         )
 
