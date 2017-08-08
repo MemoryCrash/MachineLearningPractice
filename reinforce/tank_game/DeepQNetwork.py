@@ -16,7 +16,7 @@ def image_chg(img):
 class DeepQNetwork:
 
     def _network(self, c_names):
-        w_initializer, b_initializer = tf.random_normal_initializer(0., 0.3), tf.constant_initializer(0.1) 
+        w_initializer, b_initializer = tf.random_normal_initializer(0., 0.01), tf.constant_initializer(0.01) 
         
         conv2d = lambda x, W, stride: tf.nn.conv2d(x, W, strides = [1, stride, stride, 1], padding = "SAME")
         max_pool_2x2 = lambda x: tf.nn.max_pool(x, ksize = [1, 2, 2, 1], strides = [1, 2, 2, 1], padding = "SAME")
@@ -193,6 +193,7 @@ class DeepQNetwork:
         _, self.cost = self.sess.run([self._train_op, self.loss],
                                      feed_dict={self.s: batch_s,
                                                 self.q_target: q_target})
+
         self.cost_his.append(self.cost) # 记录 cost 误差
 
         # 逐渐增加 epsilon, 降低行为的随机性

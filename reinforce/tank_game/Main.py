@@ -35,7 +35,8 @@ def env_reset(env):
 
 def next_observation(raw_observation_, observation):
     raw_observation_ = cv2.cvtColor(raw_observation_, cv2.COLOR_BGR2GRAY)
-    ret, raw_observation_ = cv2.threshold(raw_observation_,1,255,cv2.THRESH_BINARY)
+    #cv2.imwrite('./images_tank/1.jpg', raw_observation_)
+    #ret, raw_observation_ = cv2.threshold(raw_observation_,1,255,cv2.THRESH_BINARY)
     raw_observation_ = np.reshape(raw_observation_, (80, 80, 1))
 
     return np.append(raw_observation_, observation[:,:,0:3], axis = 2)
@@ -59,7 +60,6 @@ def run_tanks():
 
             raw_observation_ = image_chg(raw_observation_)
             observation_ = next_observation(raw_observation_, observation)
-
             RL.store_transition(observation, action, reward, observation_, terminal)
 
             if step == OBSERVE:
