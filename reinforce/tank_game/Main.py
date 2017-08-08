@@ -38,8 +38,8 @@ def next_observation(raw_observation_, observation):
     #cv2.imwrite('./images_tank/1.jpg', raw_observation_)
     #ret, raw_observation_ = cv2.threshold(raw_observation_,1,255,cv2.THRESH_BINARY)
     raw_observation_ = np.reshape(raw_observation_, (80, 80, 1))
-
     return np.append(raw_observation_, observation[:,:,0:3], axis = 2)
+
 
 
 def run_tanks():
@@ -54,10 +54,8 @@ def run_tanks():
         while True:
 
             action = RL.choose_action(observation, step, OBSERVE)
-
             raw_observation_, reward, terminal = env.frame_step(action)
             episode_reward += reward
-
             raw_observation_ = image_chg(raw_observation_)
             observation_ = next_observation(raw_observation_, observation)
             RL.store_transition(observation, action, reward, observation_, terminal)
@@ -88,8 +86,8 @@ if __name__ == '__main__':
         learning_rate=0.01,
         reward_decay=0.9,
         e_greedy=0.9,
-        replace_target_iter=800,
-        memory_size=10000,
+        replace_target_iter=1000,
+        memory_size=50000,
         output_graph=True
         )
 

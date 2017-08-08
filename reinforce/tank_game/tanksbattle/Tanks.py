@@ -1642,6 +1642,7 @@ class GameState:
 
 
         gtimer.update(time_passed)
+
         return image_data, reward, terminal
 
 
