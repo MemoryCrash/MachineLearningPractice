@@ -85,7 +85,7 @@ class DeepQNetwork:
         learning_rate=0.01,
         reward_decay=0.9,
         e_greedy=0.9,
-        replace_target_iter=300,
+        replace_target_iter=1000,
         memory_size=200,
         batch_size=32,
         e_greedy_increment=None,
@@ -139,6 +139,7 @@ class DeepQNetwork:
         if np.random.uniform() < self.epsilon and step > OBSERVE:
             # 让 eval_net 神经网络生成所有 action 的值, 并选择值最大的 action
             actions_value = self.sess.run(self.q_eval, feed_dict={self.s: observation})
+
             action[np.argmax(actions_value)]=1
         else:
             action[np.random.randint(0, self.n_actions)] = 1   # 随机选择
@@ -175,10 +176,9 @@ class DeepQNetwork:
             })
 
         q_target = q_eval.copy()
-
         for i in range(0, len(batch_memory)):
             if batch_memory[i][4]:
-                batch_r[i]
+                q_target[i][np.argmax(batch_a[i])] = batch_r[i]
             else:
                 q_target[i][np.argmax(batch_a[i])] \
                 = batch_r[i] + self.gamma * np.max(q_next[i])
@@ -193,7 +193,6 @@ class DeepQNetwork:
         _, self.cost = self.sess.run([self._train_op, self.loss],
                                      feed_dict={self.s: batch_s,
                                                 self.q_target: q_target})
-
         self.cost_his.append(self.cost) # 记录 cost 误差
 
         # 逐渐增加 epsilon, 降低行为的随机性
@@ -208,7 +207,7 @@ class DeepQNetwork:
         plt.show()
 
     def net_saver(self, step):
-        if step % 10000 == 0:
+        if step % 50000 == 0:
             self.saver.save(self.sess, 'saved_networks_tank/' + 'tank-dqn', global_step = step)
 
     def net_restore(self):
