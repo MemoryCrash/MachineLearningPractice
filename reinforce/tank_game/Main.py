@@ -12,8 +12,8 @@ from DeepQNetwork import DeepQNetwork, image_chg
 
 ACTIONS = 6
 IMAGE_SIZE = 80
-OBSERVE = 10000
-EXPLORE = 1000000.
+OBSERVE = 5000
+EXPLORE = 10000.
 
 
 def print_progress(episode, episode_max, start_time):
@@ -64,7 +64,7 @@ def run_tanks():
     """
     step = 0
     state_num = 0
-    play_time = 1000
+    play_time = 2000
 
     for episode in range(play_time):
         print_progress(episode, play_time, start_time)

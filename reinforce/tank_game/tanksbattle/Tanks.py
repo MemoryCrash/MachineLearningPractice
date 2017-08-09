@@ -1589,7 +1589,7 @@ class GameState:
         for enemy in enemies:
             if enemy.state == enemy.STATE_DEAD and not self.game_over and self.active:
                 enemies.remove(enemy)
-                reward += 10
+                reward += 20
                 if len(self.level.enemies_left) == 0 and len(enemies) == 0:
                     self.finishLevel()
                     terminal = True

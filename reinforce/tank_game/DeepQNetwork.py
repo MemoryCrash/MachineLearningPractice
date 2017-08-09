@@ -18,35 +18,39 @@ def image_chg(img):
 
 class DeepQNetwork:
 
+    def _conv2d(self,x, W, stride):
+        return tf.nn.conv2d(x, W, strides=[1, stride, stride, 1], padding="SAME")
+
+    def _max_pool_2x2(self, x):
+        return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
+
     def _network(self, c_names):
         w_initializer = tf.random_normal_initializer(0., 0.01)
         b_initializer = tf.constant_initializer(0.01)
-        conv2d = lambda x, W, stride: tf.nn.conv2d(x, W, strides=[1, stride, stride, 1], padding="SAME")
-        max_pool_2x2 = lambda x: tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
 
         # 卷积层1
         with tf.variable_scope('conv1'):
             wc1 = tf.get_variable('w_c1', [8, 8, 4, 32], initializer=w_initializer, collections=c_names)
             bc1 = tf.get_variable('b_c1', [32], initializer=b_initializer, collections=c_names)
-            h_conv1 = tf.nn.relu(conv2d(self.s, wc1, 4) + bc1)
+            h_conv1 = tf.nn.relu(_conv2d(self.s, wc1, 4) + bc1)
             #h_pool1 = max_pool_2x2(h_conv1)
 
         # 卷积层2
         with tf.variable_scope('conv2'):
             wc2 = tf.get_variable('w_c2', [4, 4, 32, 64], initializer=w_initializer, collections=c_names)
             bc2 = tf.get_variable('b_c2', [64], initializer=b_initializer, collections=c_names)
-            h_conv2 = tf.nn.relu(conv2d(h_conv1, wc2, 2) + bc2)
+            h_conv2 = tf.nn.relu(_conv2d(h_conv1, wc2, 2) + bc2)
 
         # 卷积层3
         with tf.variable_scope('conv3'):
             wc3 = tf.get_variable('w_c3', [3, 3, 64, 64], initializer=w_initializer, collections=c_names)
             bc3 = tf.get_variable('b_c3', [64], initializer=b_initializer, collections=c_names)
-            h_conv3 = tf.nn.relu(conv2d(h_conv2, wc3, 1) + bc3)
-            h_conv3_flat = tf.reshape(h_conv3, [-1, 3136])
+            h_conv3 = tf.nn.relu(_conv2d(h_conv2, wc3, 1) + bc3)
+            h_conv3_flat = tf.reshape(h_conv3, [-1, 6400])
 
         # 第一层. collections 是在更新 target_net 参数时会用到
         with tf.variable_scope('l1'):
-            w1 = tf.get_variable('w1', [3136, 512], initializer=w_initializer, collections=c_names)
+            w1 = tf.get_variable('w1', [6400, 512], initializer=w_initializer, collections=c_names)
             b1 = tf.get_variable('b1', [512], initializer=b_initializer, collections=c_names)
             l1 = tf.nn.relu(tf.matmul(h_conv3_flat, w1) + b1)
 
