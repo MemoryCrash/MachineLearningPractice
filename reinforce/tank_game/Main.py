@@ -63,6 +63,7 @@ def run_tanks():
     运行坦克大战游戏
     """
     step = 0
+    state_num = 0
     play_time = 1000
 
     for episode in range(play_time):
@@ -72,21 +73,30 @@ def run_tanks():
 
         while True:
             # 选择动作
-            action = RL.choose_action(observation, step, OBSERVE, EXPLORE)
+            action = RL.choose_action(observation, state_num, OBSERVE, EXPLORE)
 
             # 施加选择的动作到环境上，环境返回动作作用后环境信息，当前动作奖励，环境状态(结束true/继续false)
             raw_observation_, reward, terminal = env.frame_step(action)
             raw_observation_ = image_chg(raw_observation_)
             observation_ = next_observation(raw_observation_, observation)
 
-            # 将以上的环境，动作，动作反馈，动作作用后的环境，环境状态存入队列，后续训练使用
-            RL.store_transition(observation, action, reward, observation_, terminal)
+            # 平衡下存储的信息，让reward大的多放点在memory中。
+            if np.random.uniform() < 0.8:
+                if abs(reward) > 5:
+                    # 将以上的环境，动作，动作反馈，动作作用后的环境，环境状态存入队列，后续训练使用
+                    RL.store_transition(observation, action, reward, observation_, terminal)
+                    state_num += 1
+            else:
+                # 将以上的环境，动作，动作反馈，动作作用后的环境，环境状态存入队列，后续训练使用
+                RL.store_transition(observation, action, reward, observation_, terminal)
+                state_num += 1
+            #print(state_num)
 
-            if step == OBSERVE:
+            if state_num == OBSERVE:
                 print('\nMemory is enough begin to train')
 
             # 先运行一段时间收集足够的训练信息再开始学习
-            if(step > OBSERVE) and (step % 5 == 0):
+            if(state_num > OBSERVE) and (step % 5 == 0):
                 RL.learn()
 
             # 保存训练的神经网络
