@@ -32,20 +32,20 @@ class DeepQNetwork:
         with tf.variable_scope('conv1'):
             wc1 = tf.get_variable('w_c1', [8, 8, 4, 32], initializer=w_initializer, collections=c_names)
             bc1 = tf.get_variable('b_c1', [32], initializer=b_initializer, collections=c_names)
-            h_conv1 = tf.nn.relu(_conv2d(self.s, wc1, 4) + bc1)
-            #h_pool1 = max_pool_2x2(h_conv1)
+            h_conv1 = tf.nn.relu(self._conv2d(self.s, wc1, 4) + bc1)
+            #h_pool1 = self._max_pool_2x2(h_conv1)
 
         # 卷积层2
         with tf.variable_scope('conv2'):
             wc2 = tf.get_variable('w_c2', [4, 4, 32, 64], initializer=w_initializer, collections=c_names)
             bc2 = tf.get_variable('b_c2', [64], initializer=b_initializer, collections=c_names)
-            h_conv2 = tf.nn.relu(_conv2d(h_conv1, wc2, 2) + bc2)
+            h_conv2 = tf.nn.relu(self._conv2d(h_conv1, wc2, 2) + bc2)
 
         # 卷积层3
         with tf.variable_scope('conv3'):
             wc3 = tf.get_variable('w_c3', [3, 3, 64, 64], initializer=w_initializer, collections=c_names)
             bc3 = tf.get_variable('b_c3', [64], initializer=b_initializer, collections=c_names)
-            h_conv3 = tf.nn.relu(_conv2d(h_conv2, wc3, 1) + bc3)
+            h_conv3 = tf.nn.relu(self._conv2d(h_conv2, wc3, 1) + bc3)
             h_conv3_flat = tf.reshape(h_conv3, [-1, 6400])
 
         # 第一层. collections 是在更新 target_net 参数时会用到
