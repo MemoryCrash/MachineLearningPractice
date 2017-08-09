@@ -42,11 +42,11 @@ class DeepQNetwork:
             wc3 = tf.get_variable('w_c3', [3, 3, 64, 64], initializer=w_initializer, collections=c_names)
             bc3 = tf.get_variable('b_c3', [64], initializer=b_initializer, collections=c_names)
             h_conv3 = tf.nn.relu(conv2d(h_conv2, wc3, 1) + bc3)
-            h_conv3_flat = tf.reshape(h_conv3, [-1, 6400])
+            h_conv3_flat = tf.reshape(h_conv3, [-1, 3136])
 
         # 第一层. collections 是在更新 target_net 参数时会用到
         with tf.variable_scope('l1'):
-            w1 = tf.get_variable('w1', [6400, 512], initializer=w_initializer, collections=c_names)
+            w1 = tf.get_variable('w1', [3136, 512], initializer=w_initializer, collections=c_names)
             b1 = tf.get_variable('b1', [512], initializer=b_initializer, collections=c_names)
             l1 = tf.nn.relu(tf.matmul(h_conv3_flat, w1) + b1)
 
