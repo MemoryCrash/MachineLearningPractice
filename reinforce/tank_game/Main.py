@@ -13,6 +13,7 @@ from DeepQNetwork import DeepQNetwork, image_chg
 ACTIONS = 6
 IMAGE_SIZE = 80
 OBSERVE = 10000
+EXPLORE = 1000000.
 
 
 def print_progress(episode, episode_max, start_time):
@@ -71,7 +72,7 @@ def run_tanks():
 
         while True:
             # 选择动作
-            action = RL.choose_action(observation, step, OBSERVE)
+            action = RL.choose_action(observation, step, OBSERVE, EXPLORE)
 
             # 施加选择的动作到环境上，环境返回动作作用后环境信息，当前动作奖励，环境状态(结束true/继续false)
             raw_observation_, reward, terminal = env.frame_step(action)
@@ -111,8 +112,8 @@ if __name__ == '__main__':
         learning_rate=0.01,
         reward_decay=0.9,
         e_greedy=0.9,
-        replace_target_iter=1000,
-        memory_size=50000,
+        replace_target_iter=10000,
+        memory_size=500000,
         output_graph=True
         )
 

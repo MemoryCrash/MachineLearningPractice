@@ -64,15 +64,20 @@ class DeepQNetwork:
         self.s = tf.placeholder(tf.float32, [None, self.image_size, self.image_size, 4], name='s')
 
         # 用来接收 q_target 的值, 这个之后会通过计算得到
-        self.q_target = tf.placeholder(tf.float32, [None, self.n_actions], name='Q_target')
+        self.q_target = tf.placeholder(tf.float32, [None], name='Q_target')
+        
+        # 用来获取动作
+        self.actionInput = tf.placeholder(tf.float32, [None, self.n_actions], name='a')
+
         with tf.variable_scope('eval_net'):
             # c_names(collections_names) 是在更新 target_net 参数时会用到
-            c_names = ['eval_net_params', tf.GraphKeys.GLOBAL_VARIABLES]
-            self.q_eval = self._network(c_names)
+            eval_names = ['eval_net_params', tf.GraphKeys.GLOBAL_VARIABLES]
+            self.q_eval = self._network(eval_names)
 
         # 求误差
         with tf.variable_scope('loss'):
-            self.loss = tf.reduce_mean(tf.squared_difference(self.q_target, self.q_eval))
+            self.q_action = tf.reduce_sum(tf.multiply(self.q_eval, self.actionInput), reduction_indices = 1)
+            self.loss = tf.reduce_mean(tf.squared_difference(self.q_target, self.q_action))
         # 梯度下降
         with tf.variable_scope('train'):
             self._train_op = tf.train.RMSPropOptimizer(self.lr).minimize(self.loss)
@@ -83,8 +88,8 @@ class DeepQNetwork:
         self.s_ = tf.placeholder(tf.float32, [None, self.image_size, self.image_size, 4], name='s_')
         with tf.variable_scope('target_net'):
             # c_names(collections_names) 是在更新 target_net 参数时会用到
-            c_names = ['target_net_params', tf.GraphKeys.GLOBAL_VARIABLES]
-            self.q_next = self._network(c_names)
+            target_names = ['target_net_params', tf.GraphKeys.GLOBAL_VARIABLES]
+            self.q_next = self._network(target_names)
 
     def __init__(
         self,
@@ -93,10 +98,9 @@ class DeepQNetwork:
         learning_rate=0.01,
         reward_decay=0.9,
         e_greedy=0.9,
-        replace_target_iter=1000,
-        memory_size=200,
+        replace_target_iter=10000,
+        memory_size=1000000,
         batch_size=32,
-        e_greedy_increment=None,
         output_graph=False,
         ):
         self.n_actions = n_actions
@@ -106,6 +110,7 @@ class DeepQNetwork:
 
         # epsilon 的最大值
         self.epsilon_max = e_greedy
+        self.epsilon_ini = 0
 
         # 更换 target_net 的步数
         self.replace_target_iter = replace_target_iter
@@ -116,11 +121,8 @@ class DeepQNetwork:
         # 每次更新时从 memory 里面取多少记忆出来
         self.batch_size = batch_size
 
-        # epsilon 的增量
-        self.epsilon_increment = e_greedy_increment
-
         # 是否开启探索模式, 并逐步减少探索次数
-        self.epsilon = 0 if e_greedy_increment is not None else self.epsilon_max
+        self.epsilon = self.epsilon_ini
 
         # 记录学习次数 (用于判断是否更换 target_net 参数)
         self.learn_step_counter = 0
@@ -139,7 +141,8 @@ class DeepQNetwork:
             tf.summary.FileWriter("logs_tank/", self.sess.graph)
 
         # 先进行初始化，当下面有需要恢复的模型数据时会自动覆盖这些变量
-        self.sess.run(tf.global_variables_initializer())
+        init = tf.group(tf.global_variables_initializer(),tf.local_variables_initializer())
+        self.sess.run(init)
         # 记录所有 cost 变化, 用于最后 plot 出来观看
         self.cost_his = []
         # 检查是否存在网络可以恢复
@@ -153,7 +156,7 @@ class DeepQNetwork:
         if len(self.memory) > self.memory_size:
             self.memory.popleft()
 
-    def choose_action(self, observation, step, OBSERVE):
+    def choose_action(self, observation, step, OBSERVE, EXPLORE):
         # 统一 observation 的 shape (1, size_of_observation)
         observation = observation[np.newaxis, :]
         action = np.zeros(self.n_actions)
@@ -167,6 +170,10 @@ class DeepQNetwork:
             action[np.argmax(actions_value)] = 1
         else:
             action[np.random.randint(0, self.n_actions)] = 1
+
+        # 在满足OBSERVE后逐步增加epsilon的值直到等于设定的最大值
+        if self.epsilon < self.epsilon_max and step > OBSERVE:
+            self.epsilon += (self.epsilon_max - self.epsilon_ini) / EXPLORE
 
         return action
 
@@ -199,24 +206,24 @@ class DeepQNetwork:
                 self.s: batch_s
             })
 
-        q_target = q_eval.copy()
+        q_target = []
         for i in range(0, len(batch_memory)):
             if batch_memory[i][4]:
-                q_target[i][np.argmax(batch_a[i])] = batch_r[i]
+                q_target.append(batch_r[i])
             else:
-                q_target[i][np.argmax(batch_a[i])] = \
-                batch_r[i] + self.gamma * np.max(q_next[i])
+                q_target.append(batch_r[i] + self.gamma * np.max(q_next[i]))
+                
 
         # 训练 eval_net
         _, self.cost = self.sess.run([self._train_op, self.loss],
                                      feed_dict={self.s: batch_s,
-                                     self.q_target: q_target})
-
+                                     self.q_target: q_target,
+                                     self.actionInput: batch_a})
+        #print('cost:{}'.format(self.cost))
         # 记录 cost 误差
         self.cost_his.append(self.cost)
 
         # 逐渐增加 epsilon, 降低行为的随机性
-        self.epsilon = self.epsilon + self.epsilon_increment if self.epsilon < self.epsilon_max else self.epsilon_max
         self.learn_step_counter += 1
 
     def plot_cost(self):
