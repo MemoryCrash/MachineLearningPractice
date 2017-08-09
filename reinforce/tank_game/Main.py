@@ -40,7 +40,9 @@ def env_reset(env):
     x_t = image_chg(x_t)
 
     x_t = cv2.cvtColor(x_t, cv2.COLOR_BGR2GRAY)
-    return np.stack((x_t, x_t, x_t, x_t), axis=2)
+    x_t = np.stack((x_t, x_t, x_t, x_t), axis=2)
+    # 输入的数据进行归一化，均值设置为0
+    return x_t / 255.0
 
 
 def next_observation(raw_observation_, observation):
@@ -48,6 +50,9 @@ def next_observation(raw_observation_, observation):
     对动作作用后的原始的环境帧图片进行处理，将上个环境图片添加三张进去
     """
     raw_observation_ = cv2.cvtColor(raw_observation_, cv2.COLOR_BGR2GRAY)
+    # 输入的数据进行归一化，均值设置为0
+    raw_observation_ = raw_observation_ / 255.0
+
     raw_observation_ = np.reshape(raw_observation_, (80, 80, 1))
     return np.append(raw_observation_, observation[:, :, 0:3], axis=2)
 
