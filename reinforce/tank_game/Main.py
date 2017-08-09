@@ -122,8 +122,8 @@ if __name__ == '__main__':
         learning_rate=0.01,
         reward_decay=0.9,
         e_greedy=0.9,
-        replace_target_iter=10000,
-        memory_size=500000,
+        replace_target_iter=5000,
+        memory_size=50000,
         output_graph=True
         )
 
