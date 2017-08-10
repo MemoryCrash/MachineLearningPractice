@@ -114,7 +114,7 @@ class DeepQNetwork:
 
         # epsilon 的最大值
         self.epsilon_max = e_greedy
-        self.epsilon_ini = 0
+        self.epsilon_ini = 0.9
 
         # 更换 target_net 的步数
         self.replace_target_iter = replace_target_iter
