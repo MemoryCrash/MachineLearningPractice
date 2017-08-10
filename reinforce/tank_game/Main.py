@@ -12,8 +12,8 @@ from DeepQNetwork import DeepQNetwork, image_chg
 
 ACTIONS = 6
 IMAGE_SIZE = 80
-OBSERVE = 5000
-EXPLORE = 10000.
+OBSERVE = 50000.
+EXPLORE = 1000000.
 
 
 def print_progress(episode, episode_max, start_time):
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     RL = DeepQNetwork(ACTIONS, IMAGE_SIZE,
         learning_rate=0.01,
         reward_decay=0.9,
-        e_greedy=0.9,
+        e_greedy=0.999,
         replace_target_iter=5000,
         memory_size=50000,
         output_graph=True
