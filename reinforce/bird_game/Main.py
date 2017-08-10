@@ -7,14 +7,13 @@ import time
 import numpy as np
 from datetime import timedelta
 
-from tanksbattle import Tanks
 from flappybird import Bird
 from DeepQNetwork import DeepQNetwork, image_chg
 #from DQN_priority import DeepQNetwork, image_chg
 
 ACTIONS = 2
 IMAGE_SIZE = 80
-OBSERVE = 100000.
+OBSERVE = 51000.
 EXPLORE = 2000000.
 
 
@@ -113,7 +112,7 @@ if __name__ == '__main__':
     RL = DeepQNetwork(ACTIONS, IMAGE_SIZE,
         learning_rate=0.01,
         reward_decay=0.9,
-        e_greedy=0.9,
+        e_greedy=0.9999,
         replace_target_iter=5000,
         memory_size=50000,
         output_graph=True
